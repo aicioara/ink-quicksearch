@@ -4,17 +4,35 @@
   "description": "Quicksearch Input Component for Ink",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir=dist"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aicioara/ink-quicksearch.git"
   },
   "keywords": [],
-  "author": "Andrei Cioara",
+  "author": {
+    "name": "Andrei Cioara",
+    "url": "http://andrei.cioara.me"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aicioara/ink-quicksearch/issues"
   },
-  "homepage": "https://github.com/aicioara/ink-quicksearch#readme"
+  "babel": {
+    "plugins": [
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "h",
+          "useBuiltIns": true
+        }
+      ]
+    ]
+  },
+  "homepage": "https://github.com/aicioara/ink-quicksearch#readme",
+  "dependencies": {
+    "ink": "0.5.0"
+  }
 }
