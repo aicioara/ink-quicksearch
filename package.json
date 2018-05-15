@@ -1,0 +1,20 @@
+{
+  "name": "ink-quicksearch",
+  "version": "0.0.1",
+  "description": "Quicksearch Input Component for Ink",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aicioara/ink-quicksearch.git"
+  },
+  "keywords": [],
+  "author": "Andrei Cioara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aicioara/ink-quicksearch/issues"
+  },
+  "homepage": "https://github.com/aicioara/ink-quicksearch#readme"
+}
