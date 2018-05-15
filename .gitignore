@@ -1,0 +1,21 @@
+# IDE
+.idea
+
+# Build
+build/
+*.pyc
+a.out
+
+# Metafiles
+.DS_Store
+
+# Dependencies
+bower_components/
+node_modules/
+venv/
+
+# Debug
+npm-debug.log
+
+# Extras
+temp/
