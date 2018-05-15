@@ -8,12 +8,25 @@ class QuickSearch extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            query: '',
+        }
+
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     render() {
+        return this.props.items.map((item, index) => {
+            const isLast = (index === this.props.items.length - 1)
+
+            return <span key={item.value}>
+                {item.label}
+                {!isLast && <br/>}
+            </span>
+        })
+
         return <span>
-            <Color green> Foo </Color>
+            <Color green> Your query: {this.state.query} </Color>
         </span>
     }
 
@@ -35,7 +48,8 @@ class QuickSearch extends Component {
             return;
         }
 
-        const {onChange, onSubmit, value, query} = this.props
+        const {onChange, onSubmit, value} = this.props
+        const {query} = this.state
 
         if (key.name === 'return') {
             onSubmit(query);
