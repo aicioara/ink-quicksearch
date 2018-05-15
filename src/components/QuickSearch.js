@@ -16,16 +16,41 @@ class QuickSearch extends Component {
     }
 
     render() {
-        return this.props.items.map((item, index) => {
+        const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1)
 
+            const label = item.label;
+            const query = this.state.query;
+            const queryPosition = label.indexOf(query);
+
+            let display = ""
+
+            if (queryPosition === -1) {
+                display = <Color red>{label}</Color>
+            } else {
+                const start = queryPosition;
+                const end = start + query.length;
+
+                const first = label.slice(0, start);
+                const second = label.slice(start, end);
+                const third = label.slice(end);
+
+                display = <span>
+                    <Color red>{first}</Color>
+                    <Color blue>{second}</Color>
+                    <Color red>{third}</Color>
+                </span>
+            }
+
+
             return <span key={item.value}>
-                {item.label}
-                {!isLast && <br/>}
+                {display}
+                <br/>
             </span>
         })
 
         return <span>
+            {items}
             <Color green> Your query: {this.state.query} </Color>
         </span>
     }
@@ -65,7 +90,7 @@ class QuickSearch extends Component {
         const newQuery = query + ch;
         this.setState({query: newQuery});
 
-        console.log(ch, key);
+        // console.log(ch, key);
     }
 }
 
@@ -80,6 +105,7 @@ QuickSearch.defaultProps = {
     onChange: noop,
     onSubmit: noop,
     focus: true,
+    caseSensitive: false,
 };
 
 module.exports = QuickSearch;
