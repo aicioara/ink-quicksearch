@@ -4,6 +4,26 @@ const hasAnsi = require('has-ansi');
 const noop = () => {};
 
 
+const Indicator = ({isSelected, children}) => {
+    if (!isSelected) {
+        return ' ';
+    }
+
+    return <Color blue>&gt;</Color>
+}
+
+const Item = ({isSelected, children}) => (
+    <Color blue>
+        {children}
+    </Color>
+);
+
+const Highlight = ({isSelected, children}) => (
+    <Color bgHex="#FFFFFF">
+        {children}
+    </Color>
+);
+
 class QuickSearch extends Component {
     constructor(props) {
         super(props);
@@ -16,8 +36,12 @@ class QuickSearch extends Component {
     }
 
     render() {
+        const HighlightComponent = this.props.highlightComponent;
+        const ItemComponent = this.props.itemComponent;
+
         const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1)
+            const isSelected = false;
 
             const label = item.label;
             const query = this.state.query;
@@ -26,7 +50,7 @@ class QuickSearch extends Component {
             let display = ""
 
             if (queryPosition === -1) {
-                display = <Color red>{label}</Color>
+                display = <ItemComponent>{label}</ItemComponent>
             } else {
                 const start = queryPosition;
                 const end = start + query.length;
@@ -35,13 +59,12 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                display = <span>
-                    <Color red>{first}</Color>
-                    <Color blue>{second}</Color>
-                    <Color red>{third}</Color>
-                </span>
+                display = <ItemComponent>
+                    {first}
+                    <HighlightComponent>{second}</HighlightComponent>
+                    {third}
+                </ItemComponent>
             }
-
 
             return <span key={item.value}>
                 {display}
@@ -106,6 +129,9 @@ QuickSearch.defaultProps = {
     onSubmit: noop,
     focus: true,
     caseSensitive: false,
+    indicatorComponent: Indicator,
+    itemComponent: Item,
+    highlightComponent: Highlight,
 };
 
 module.exports = QuickSearch;
