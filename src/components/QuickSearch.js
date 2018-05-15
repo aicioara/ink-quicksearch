@@ -12,17 +12,19 @@ const Indicator = ({isSelected, children}) => {
     return <Color blue>&gt;</Color>
 }
 
-const Item = ({isSelected, children}) => (
-    <Color blue>
+const Item = ({isSelected, isHighlighted, children}) => (
+    <Color blue={isSelected}>
         {children}
     </Color>
 );
 
-const Highlight = ({isSelected, children}) => (
-    <Color bgHex="#FFFFFF">
+
+const Highlight = ({isSelected, isHighlighted, children}) => (
+    <Color bgHex="#6C71C4">
         {children}
     </Color>
 );
+
 
 class QuickSearch extends Component {
     constructor(props) {
@@ -38,19 +40,22 @@ class QuickSearch extends Component {
     render() {
         const HighlightComponent = this.props.highlightComponent;
         const ItemComponent = this.props.itemComponent;
+        const IndicatorComponent = this.props.indicatorComponent;
 
         const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1)
             const isSelected = false;
+            const isHighlighted = false;
+
+            const itemProps = {isSelected, isHighlighted}
 
             const label = item.label;
             const query = this.state.query;
-            const queryPosition = label.indexOf(query);
+            const queryPosition = query.trim() === '' ? -1 : label.indexOf(query);
 
             let display = ""
-
             if (queryPosition === -1) {
-                display = <ItemComponent>{label}</ItemComponent>
+                display = <ItemComponent {...itemProps}>{label}</ItemComponent>
             } else {
                 const start = queryPosition;
                 const end = start + query.length;
@@ -59,7 +64,7 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                display = <ItemComponent>
+                display = <ItemComponent {...itemProps}>
                     {first}
                     <HighlightComponent>{second}</HighlightComponent>
                     {third}
@@ -67,7 +72,7 @@ class QuickSearch extends Component {
             }
 
             return <span key={item.value}>
-                {display}
+                <IndicatorComponent/>{display}
                 <br/>
             </span>
         })
