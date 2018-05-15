@@ -1,3 +1,4 @@
-# Boilerplate
+# Ink Quicksearch
 
-This is a repository containing boilerplate code to be copy pasted
+> QuickSearch Component for [Ink](https://github.com/vadimdemedes/ink)
+
