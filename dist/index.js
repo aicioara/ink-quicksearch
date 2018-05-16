@@ -1,28 +1,28 @@
-const { h, render, Component, Color } = require('ink');
+const { h, Component, Color } = require('ink');
 const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
 const noop = () => {};
+const defaultValue = { label: '' }; // Used as return for empty array
 
-const IndicatorComponent = ({ isSelected, children }) => {
+
+// For the following four, whitespace is important
+const IndicatorComponent = ({ isSelected }) => {
     return h(
         Color,
         { hex: '#00FF00' },
-        isSelected ? '>' : ''
+        isSelected ? '>' : ' ',
+        ' '
     );
 };
 
-// Maybe I can add the label concept here by putting it next to children and
-// then I will be compatible in all APIs
-const ItemComponent = ({ isSelected, isHighlighted, children }) => h(
+const ItemComponent = ({ isSelected, children }) => h(
     Color,
     { hex: isSelected ? '#00FF00' : '' },
-    ' ',
-    children,
-    ' '
+    children
 );
 
-const HighlightComponent = ({ isSelected, isHighlighted, children }) => h(
+const HighlightComponent = ({ children }) => h(
     Color,
     { bgHex: '#6C71C4' },
     children
@@ -46,25 +46,28 @@ class QuickSearch extends Component {
         const HighlightComponent_ = this.props.highlightComponent;
         const ItemComponent_ = this.props.itemComponent;
         const IndicatorComponent_ = this.props.indicatorComponent;
+        const StatusComponent_ = this.props.statusComponent;
 
         const items = this.props.items.map((item, index) => {
             const isLast = index === this.props.items.length - 1;
             const isSelected = index === this.state.selectionIndex;
-            const isHighlighted = false;
+            const isHighlighted = undefined;
 
             const itemProps = { isSelected, isHighlighted };
 
             const label = item.label;
             const queryPosition = this.getMatchPosition(label, this.state.query);
 
-            let display = "";
+            let labelComponent = '';
             if (queryPosition === -1) {
-                display = h(
-                    ItemComponent_,
-                    itemProps,
+                itemProps.isHighlighted = false;
+                labelComponent = h(
+                    'span',
+                    null,
                     label
                 );
             } else {
+                itemProps.isHighlighted = true;
                 const start = queryPosition;
                 const end = start + this.state.query.length;
 
@@ -72,9 +75,9 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                display = h(
-                    ItemComponent_,
-                    itemProps,
+                labelComponent = h(
+                    'span',
+                    null,
                     first,
                     h(
                         HighlightComponent_,
@@ -86,11 +89,11 @@ class QuickSearch extends Component {
             }
 
             return h(
-                'span',
-                { key: item.value },
+                ItemComponent_,
+                Object.assign({ key: item.value }, itemProps),
                 h(IndicatorComponent_, itemProps),
-                display,
-                h('br', null)
+                labelComponent,
+                !isLast && h('br', null)
             );
         });
 
@@ -99,8 +102,9 @@ class QuickSearch extends Component {
             null,
             items,
             h(
-                StatusComponent,
+                StatusComponent_,
                 { hasMatch: this.state.hasMatch },
+                h('br', null),
                 this.state.query
             )
         );
@@ -141,8 +145,6 @@ class QuickSearch extends Component {
         } else {
             this._updateQuery(this.state.query + ch);
         }
-
-        // console.log(ch, key);
     }
 
     _updateQuery(query) {
@@ -163,16 +165,7 @@ class QuickSearch extends Component {
     }
 
     _changeSelection(delta) {
-        let selectionIndex = this.state.selectionIndex;
-        while (true) {
-            selectionIndex = selectionIndex + delta;
-            if (selectionIndex < 0) {
-                return;
-            }
-            if (selectionIndex >= this.props.items.length) {
-                return;
-            }
-
+        for (let selectionIndex = this.state.selectionIndex + delta; 0 <= selectionIndex && selectionIndex < this.props.items.length; selectionIndex += delta) {
             if (!this.state.hasMatch) {
                 this.setState({ selectionIndex });
                 break;
@@ -197,9 +190,16 @@ class QuickSearch extends Component {
     }
 
     getValue() {
-        return this.props.items[this.state.selectionIndex];
+        return this.props.items[this.state.selectionIndex] || defaultValue;
     }
 }
+
+QuickSearch.initialState = {
+    query: '',
+    hasMatch: true,
+    selectionIndex: 0,
+    labels: []
+};
 
 QuickSearch.defaultProps = {
     items: [],
@@ -208,14 +208,8 @@ QuickSearch.defaultProps = {
     caseSensitive: false,
     indicatorComponent: IndicatorComponent,
     itemComponent: ItemComponent,
-    highlightComponent: HighlightComponent
-};
-
-QuickSearch.initialState = {
-    query: '',
-    hasMatch: true,
-    selectionIndex: 0,
-    labels: []
+    highlightComponent: HighlightComponent,
+    statusComponent: StatusComponent
 };
 
 module.exports = QuickSearch;
