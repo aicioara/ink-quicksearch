@@ -9,10 +9,10 @@ const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 
 const ItemComponent = ({isHighlighted, isSelected, children}) => {
     if (!isHighlighted) {
-        return <span></span>
+        return <span></span>;
     }
-    return <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
-}
+    return <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>;
+};
 
 const StatusComponent = () => <span></span>; // No-op
 

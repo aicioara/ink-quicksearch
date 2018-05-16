@@ -51,7 +51,7 @@ class QuickSearch extends Component {
             let labelComponent = '';
             if (queryPosition === -1) {
                 itemProps.isHighlighted = false;
-                labelComponent = <span>{label}</span>
+                labelComponent = <span>{label}</span>;
             } else {
                 itemProps.isHighlighted = true;
                 const start = queryPosition;
@@ -65,7 +65,7 @@ class QuickSearch extends Component {
                     {first}
                     <HighlightComponent_>{second}</HighlightComponent_>
                     {third}
-                </span>
+                </span>;
             }
 
             return <ItemComponent_ key={item.value} {...itemProps}>
