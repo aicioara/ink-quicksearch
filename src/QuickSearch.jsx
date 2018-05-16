@@ -110,9 +110,6 @@ class QuickSearch extends Component {
         } else {
             this._updateQuery(this.state.query + ch);
         }
-
-        // console.log(ch, key);
-
     }
 
     _updateQuery(query) {
@@ -172,6 +169,13 @@ class QuickSearch extends Component {
     }
 }
 
+QuickSearch.initialState = {
+    query: '',
+    hasMatch: true,
+    selectionIndex: 0,
+    labels: [],
+};
+
 QuickSearch.defaultProps = {
     items: [],
     onSubmit: noop,
@@ -180,13 +184,6 @@ QuickSearch.defaultProps = {
     indicatorComponent: IndicatorComponent,
     itemComponent: ItemComponent,
     highlightComponent: HighlightComponent,
-};
-
-QuickSearch.initialState = {
-    query: '',
-    hasMatch: true,
-    selectionIndex: 0,
-    labels: [],
 };
 
 module.exports = QuickSearch;
