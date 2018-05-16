@@ -82,8 +82,9 @@ Whether or not quicksearch matching will be case sensitive
 
 Type: `Component`<br>
 Props:
-    - `isSelected`: `boolean`
-    - `isHighlighted`: `boolean`
+
+- `isSelected`: `boolean`
+- `isHighlighted`: `boolean`
 
 Custom component to override the default indicator component (default - arrow).
 
@@ -93,8 +94,10 @@ Custom component to override the default indicator component (default - arrow).
 
 Type: `Component`<br>
 Props:
-    - `isSelected`: `boolean`
-    - `isHighlighted`: `boolean`
+
+- `isSelected`: `boolean`
+- `isHighlighted`: `boolean`
+- `children`: `any`
 
 Custom component to override the default item style (default - selection coloring).
 
@@ -103,9 +106,11 @@ Custom component to override the default item style (default - selection colorin
 ### highlightComponent
 
 Type: `Component`<br>
-Props:<br>
-    - `isSelected`: `boolean`
-    - `isHighlighted`: `boolean`
+Props:
+
+- `isSelected`: `boolean`
+- `isHighlighted`: `boolean`
+- `children`: `any`
 
 Custom component to override the default highlight style (default - background highlight).
 
@@ -116,8 +121,7 @@ Custom component to override the default highlight style (default - background h
 Type: `Component`<br>
 Props:
 
-    - `isSelected`: `boolean`
-    - `isHighlighted`: `boolean`
+- `hasMatch`: `boolean`
 
 Custom component to override the status component (default - current query).
 
