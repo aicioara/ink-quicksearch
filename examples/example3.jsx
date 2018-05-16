@@ -7,17 +7,12 @@ const {h, render, Color, Component} = require('ink');
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 
 
-const IndicatorComponent = ({isSelected}) => {
-    return <Color hex='#00FF00'>{isSelected ? '>' : ''}</Color>;
-};
-
-const ItemComponent = ({isSelected, children}) => (
-    <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
-);
-
-const HighlightComponent = ({children}) => (
-    <Color bgHex='#6C71C4'>{children}</Color>
-);
+const ItemComponent = ({isHighlighted, isSelected, children}) => {
+    if (!isHighlighted) {
+        return <span></span>
+    }
+    return <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
+}
 
 
 class Example3 extends Component {
@@ -33,9 +28,7 @@ class Example3 extends Component {
                 {label: 'Arid'},
             ],
             onSubmit: d => console.log(d),
-            indicatorComponent: IndicatorComponent,
             itemComponent: ItemComponent,
-            highlightComponent: HighlightComponent,
         };
 
         return <span>

@@ -7,13 +7,13 @@ const defaultValue = {label:''}; // Used as return for empty array
 
 
 const IndicatorComponent = ({isSelected}) => {
-    return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>;
+    return <Color hex="#00FF00">{isSelected ? '>' : ' '} </Color>;
 };
 
 // Maybe I can add the label concept here by putting it next to children and
 // then I will be compatible in all APIs
 const ItemComponent = ({isSelected, children}) => (
-    <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
+    <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
 );
 
 const HighlightComponent = ({children}) => (
@@ -48,9 +48,9 @@ class QuickSearch extends Component {
             const label = item.label;
             const queryPosition = this.getMatchPosition(label, this.state.query);
 
-            let display = '';
+            let labelComponent = '';
             if (queryPosition === -1) {
-                display = <ItemComponent_ {...itemProps}>{label}</ItemComponent_>;
+                labelComponent = <span>{label}</span>
             } else {
                 const start = queryPosition;
                 const end = start + this.state.query.length;
@@ -59,17 +59,18 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                display = <ItemComponent_ {...itemProps}>
+                labelComponent = <span>
                     {first}
                     <HighlightComponent_>{second}</HighlightComponent_>
                     {third}
-                </ItemComponent_>;
+                </span>
             }
 
-            return <span key={item.value}>
-                <IndicatorComponent_ {...itemProps}/>{display}
+            return <ItemComponent_ key={item.value} {...itemProps}>
+                <IndicatorComponent_ {...itemProps}/>
+                {labelComponent}
                 {!isLast && <br/>}
-            </span>;
+            </ItemComponent_>;
         });
 
         return <span>
