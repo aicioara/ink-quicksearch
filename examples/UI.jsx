@@ -12,10 +12,16 @@ class UI extends Component {
                 label: 'Item 2',
                 value: 'item_2',
             }, {
-                label: 'Item 3',
+                label: 'Foo 3',
                 value: 'item_3',
             }, {
-                label: 'Item 4',
+                label: 'Foo 4',
+                value: 'item_4',
+            }, {
+                label: 'Fos 4',
+                value: 'item_4',
+            }, {
+                label: 'Fos 4',
                 value: 'item_4',
             }, {
                 label: 'Item 5',

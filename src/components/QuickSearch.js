@@ -5,24 +5,16 @@ const noop = () => {};
 
 
 const Indicator = ({isSelected, children}) => {
-    if (!isSelected) {
-        return ' ';
-    }
-
-    return <Color blue>&gt;</Color>
+    return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>
 }
 
 const Item = ({isSelected, isHighlighted, children}) => (
-    <Color blue={isSelected}>
-        {children}
-    </Color>
+    <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
 );
 
 
 const Highlight = ({isSelected, isHighlighted, children}) => (
-    <Color bgHex="#6C71C4">
-        {children}
-    </Color>
+    <Color bgHex="#6C71C4">{children}</Color>
 );
 
 
@@ -75,7 +67,7 @@ class QuickSearch extends Component {
             }
 
             return <span key={item.value}>
-                <IndicatorComponent/>{display}
+                <IndicatorComponent {...itemProps}/>{display}
                 <br/>
             </span>
         })
@@ -99,11 +91,10 @@ class QuickSearch extends Component {
             return;
         }
 
-        const {onChange, onSubmit, value} = this.props
         const {query} = this.state
 
         if (key.name === 'return') {
-            onSubmit(query);
+            this.props.onSubmit(this.props.items[this.state.selectionIndex]);
             return;
         } else if (key.name === 'backspace') {
             const newQuery = query.slice(0, -1);
@@ -115,12 +106,19 @@ class QuickSearch extends Component {
         } else if (key.name === 'down') {
             this._changeSelection(1)
             return;
+        } else if (key.name === 'escape') {
+            this.setState({query: ''})
+            return;
+        }
+
+        // console.log(ch, key);
+        if (hasAnsi(key.sequence)) {
+            return; // No need to add to query
         }
 
         const newQuery = query + ch;
         this.setState({query: newQuery});
 
-        console.log(ch, key);
     }
 
     // TODO: implement cycles
@@ -143,9 +141,6 @@ QuickSearch.propTypes = {
 
 QuickSearch.defaultProps = {
     items: [],
-    value: '',
-    query: '',
-    onChange: noop,
     onSubmit: noop,
     focus: true,
     caseSensitive: false,
