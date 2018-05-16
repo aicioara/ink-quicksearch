@@ -8,6 +8,8 @@ const Indicator = ({isSelected, children}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>
 }
 
+// Maybe I can add the label concept here by putting it next to children and
+// then I will be compatible in all APIs
 const Item = ({isSelected, isHighlighted, children}) => (
     <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
 );
@@ -25,6 +27,7 @@ class QuickSearch extends Component {
         this.state = {
             query: '',
             selectionIndex: 0,
+            labels: [],
         }
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -46,7 +49,7 @@ class QuickSearch extends Component {
 
             const label = item.label;
             const query = this.state.query;
-            const queryPosition = query.trim() === '' ? -1 : label.indexOf(query);
+            const queryPosition = this._queryMatchIndex(label);
 
             let display = ""
             if (queryPosition === -1) {
@@ -95,29 +98,27 @@ class QuickSearch extends Component {
 
         if (key.name === 'return') {
             this.props.onSubmit(this.props.items[this.state.selectionIndex]);
-            return;
         } else if (key.name === 'backspace') {
             const newQuery = query.slice(0, -1);
             this.setState({query: newQuery})
-            return;
         } else if (key.name === 'up') {
             this._changeSelection(-1);
-            return;
         } else if (key.name === 'down') {
             this._changeSelection(1)
-            return;
-        } else if (key.name === 'escape') {
+        } else if (key.name === 'escape') { // TODO: This is actually bugged
             this.setState({query: ''})
-            return;
+        } else if (hasAnsi(key.sequence)) {
+            // No-op
+        } else {
+            const newQuery = query + ch;
+            this.setState({query: newQuery});
         }
 
         // console.log(ch, key);
-        if (hasAnsi(key.sequence)) {
-            return; // No need to add to query
-        }
 
-        const newQuery = query + ch;
-        this.setState({query: newQuery});
+    }
+
+    _reconfigure() {
 
     }
 
@@ -133,12 +134,22 @@ class QuickSearch extends Component {
         this.setState({selectionIndex})
 
     }
+
+    _queryMatchIndex(label, query) {
+        if (query == undefined) {
+            query = this.state.query;
+        }
+        return query.trim() === '' ? -1 : label.indexOf(query)
+
+    }
 }
 
 QuickSearch.propTypes = {
 
 };
 
+// Maybe I can have the onChange and value concepts here, so this can be modified from the outside
+// Will see how I feel like
 QuickSearch.defaultProps = {
     items: [],
     onSubmit: noop,
