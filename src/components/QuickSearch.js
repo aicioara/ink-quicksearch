@@ -1,5 +1,6 @@
 const {h, render, Component, Color} = require('ink');
 const hasAnsi = require('has-ansi');
+const isEqual = require('lodash.isequal');
 
 const noop = () => {};
 
@@ -23,13 +24,7 @@ const Highlight = ({isSelected, isHighlighted, children}) => (
 class QuickSearch extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            query: '',
-            selectionIndex: 0,
-            labels: [],
-        }
-
+        this.state = QuickSearch.initialState;
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
@@ -86,6 +81,12 @@ class QuickSearch extends Component {
 
     componentWillUnmount() {
         process.stdin.removeListener('keypress', this.handleKeyPress);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!isEqual(this.props.items, nextProps.items)) {
+            this.setState(QuickSearch.initialState);
+        }
     }
 
     handleKeyPress(ch, key) {
@@ -169,6 +170,12 @@ QuickSearch.defaultProps = {
     indicatorComponent: Indicator,
     itemComponent: Item,
     highlightComponent: Highlight,
+};
+
+QuickSearch.initialState = {
+    query: '',
+    selectionIndex: 0,
+    labels: [],
 };
 
 module.exports = QuickSearch;
