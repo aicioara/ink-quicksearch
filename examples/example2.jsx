@@ -31,7 +31,7 @@ class Example2 extends Component {
         return <span>
             <Color red> Example 2 </Color>
             <br/>
-            <QuickSearch {...props}></QuickSearch>
+            <QuickSearch {...props} />
         </span>;
     }
 }
