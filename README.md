@@ -8,6 +8,12 @@
 $ npm install ink-quicksearch
 ```
 
+## Quickstart
+
+```bash
+npm start
+```
+
 ## Usage
 
 ```jsx
