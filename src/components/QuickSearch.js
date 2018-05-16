@@ -48,15 +48,14 @@ class QuickSearch extends Component {
             const itemProps = {isSelected, isHighlighted}
 
             const label = item.label;
-            const query = this.state.query;
-            const queryPosition = this._queryMatchIndex(label);
+            const queryPosition = this._getMatchPosition(label);
 
             let display = ""
             if (queryPosition === -1) {
                 display = <ItemComponent {...itemProps}>{label}</ItemComponent>
             } else {
                 const start = queryPosition;
-                const end = start + query.length;
+                const end = start + this.state.query.length;
 
                 const first = label.slice(0, start);
                 const second = label.slice(start, end);
@@ -97,10 +96,9 @@ class QuickSearch extends Component {
         const {query} = this.state
 
         if (key.name === 'return') {
-            this.props.onSubmit(this.props.items[this.state.selectionIndex]);
+            this.props.onSubmit(this._getCurrentSelection());
         } else if (key.name === 'backspace') {
-            const newQuery = query.slice(0, -1);
-            this.setState({query: newQuery})
+            this._refreshSelection(query.slice(0, -1));
         } else if (key.name === 'up') {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
@@ -110,19 +108,29 @@ class QuickSearch extends Component {
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
-            const newQuery = query + ch;
-            this.setState({query: newQuery});
+            this._refreshSelection(query + ch);
         }
 
         // console.log(ch, key);
 
     }
 
-    _reconfigure() {
-
+    _refreshSelection(query) {
+        let selectionIndex = 0;
+        if (query.trim() === '' || this._getMatchPosition(this._getCurrentSelection().label, query) !== -1) {
+            selectionIndex = this.state.selectionIndex;
+        } else {
+            for (var i = 0; i < this.props.items.length; i++) {
+                if (this._getMatchPosition(this.props.items[i].label, query) !== -1) {
+                    selectionIndex = i;
+                    break;
+                }
+            }
+        }
+        this.setState({selectionIndex, query})
     }
 
-    // TODO: implement cycles
+    // TODO: implement selection jumps
     _changeSelection(delta) {
         const selectionIndex = this.state.selectionIndex + delta;
         if (selectionIndex < 0) {
@@ -135,12 +143,15 @@ class QuickSearch extends Component {
 
     }
 
-    _queryMatchIndex(label, query) {
+    _getMatchPosition(label, query=undefined) {
         if (query == undefined) {
             query = this.state.query;
         }
         return query.trim() === '' ? -1 : label.indexOf(query)
+    }
 
+    _getCurrentSelection() {
+        return this.props.items[this.state.selectionIndex];
     }
 }
 
