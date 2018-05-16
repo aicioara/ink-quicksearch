@@ -1,6 +1,6 @@
 {
   "name": "ink-quicksearch",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Quicksearch Input Component for Ink",
   "main": "dist/index.js",
   "scripts": {
