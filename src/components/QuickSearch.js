@@ -5,18 +5,17 @@ const isEqual = require('lodash.isequal');
 const noop = () => {};
 
 
-const Indicator = ({isSelected, children}) => {
+const IndicatorComponent = ({isSelected, children}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>
 }
 
 // Maybe I can add the label concept here by putting it next to children and
 // then I will be compatible in all APIs
-const Item = ({isSelected, isHighlighted, children}) => (
+const ItemComponent = ({isSelected, isHighlighted, children}) => (
     <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
 );
 
-
-const Highlight = ({isSelected, isHighlighted, children}) => (
+const HighlightComponent = ({isSelected, isHighlighted, children}) => (
     <Color bgHex="#6C71C4">{children}</Color>
 );
 
@@ -29,11 +28,10 @@ class QuickSearch extends Component {
     }
 
     render() {
-        const HighlightComponent = this.props.highlightComponent;
-        const ItemComponent = this.props.itemComponent;
-        const IndicatorComponent = this.props.indicatorComponent;
-
-        let foundFirstSelection = false;
+        // Cannot have these starting with lowercases
+        const HighlightComponent_ = this.props.highlightComponent;
+        const ItemComponent_ = this.props.itemComponent;
+        const IndicatorComponent_ = this.props.indicatorComponent;
 
         const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1)
@@ -47,7 +45,7 @@ class QuickSearch extends Component {
 
             let display = ""
             if (queryPosition === -1) {
-                display = <ItemComponent {...itemProps}>{label}</ItemComponent>
+                display = <ItemComponent_ {...itemProps}>{label}</ItemComponent_>
             } else {
                 const start = queryPosition;
                 const end = start + this.state.query.length;
@@ -56,22 +54,22 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                display = <ItemComponent {...itemProps}>
+                display = <ItemComponent_ {...itemProps}>
                     {first}
-                    <HighlightComponent>{second}</HighlightComponent>
+                    <HighlightComponent_>{second}</HighlightComponent_>
                     {third}
-                </ItemComponent>
+                </ItemComponent_>
             }
 
             return <span key={item.value}>
-                <IndicatorComponent {...itemProps}/>{display}
+                <IndicatorComponent_ {...itemProps}/>{display}
                 <br/>
             </span>
         })
 
         return <span>
             {items}
-            <Color green> Your query: {this.state.query} </Color>
+            <Color green> {this.state.query} </Color>
         </span>
     }
 
@@ -117,9 +115,9 @@ class QuickSearch extends Component {
     }
 
     _updateQuery(query) {
-        let selectionIndex = 0;
+        let selectionIndex = this.state.selectionIndex;
         if (query.trim() === '' || this.getMatchPosition(this.getValue().label, query) !== -1) {
-            selectionIndex = this.state.selectionIndex;
+            // no-op
         } else {
             for (var i = 0; i < this.props.items.length; i++) {
                 if (this.getMatchPosition(this.props.items[i].label, query) !== -1) {
@@ -148,7 +146,11 @@ class QuickSearch extends Component {
         if (query.trim === '') {
             return -1;
         }
-        return label.toLowerCase().indexOf(query.toLowerCase());
+        if (this.props.caseSensitive) {
+            return label.indexOf(query);
+        } else {
+            return label.toLowerCase().indexOf(query.toLowerCase());
+        }
     }
 
     getValue() {
@@ -156,20 +158,14 @@ class QuickSearch extends Component {
     }
 }
 
-QuickSearch.propTypes = {
-
-};
-
-// Maybe I can have the onChange and value concepts here, so this can be modified from the outside
-// Will see how I feel like
 QuickSearch.defaultProps = {
     items: [],
     onSubmit: noop,
     focus: true,
     caseSensitive: false,
-    indicatorComponent: Indicator,
-    itemComponent: Item,
-    highlightComponent: Highlight,
+    indicatorComponent: IndicatorComponent,
+    itemComponent: ItemComponent,
+    highlightComponent: HighlightComponent,
 };
 
 QuickSearch.initialState = {
