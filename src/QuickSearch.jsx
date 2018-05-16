@@ -3,7 +3,7 @@ const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
 const noop = () => {};
-
+const defaultValue = {label:''}; // Used for empty item array
 
 const IndicatorComponent = ({isSelected, children}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>
@@ -168,7 +168,7 @@ class QuickSearch extends Component {
     }
 
     getValue() {
-        return this.props.items[this.state.selectionIndex];
+        return this.props.items[this.state.selectionIndex] || defaultValue;
     }
 }
 
