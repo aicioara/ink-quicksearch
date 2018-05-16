@@ -95,12 +95,10 @@ class QuickSearch extends Component {
             return;
         }
 
-        const {query} = this.state
-
         if (key.name === 'return') {
             this.props.onSubmit(this.getValue());
         } else if (key.name === 'backspace') {
-            this._updateQuery(query.slice(0, -1));
+            this._updateQuery(this.state.query.slice(0, -1));
         } else if (key.name === 'up') {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
@@ -110,7 +108,7 @@ class QuickSearch extends Component {
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
-            this._updateQuery(query + ch);
+            this._updateQuery(this.state.query + ch);
         }
 
         // console.log(ch, key);
@@ -131,7 +129,6 @@ class QuickSearch extends Component {
                 }
             }
         }
-        console.log(hasMatch)
         this.setState({selectionIndex, query, hasMatch})
     }
 
