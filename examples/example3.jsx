@@ -11,8 +11,10 @@ const ItemComponent = ({isHighlighted, isSelected, children}) => {
     if (!isHighlighted) {
         return <span></span>
     }
-    return <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
+    return <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
 }
+
+const StatusComponent = () => <span></span>; // No-op
 
 
 class Example3 extends Component {
@@ -29,6 +31,7 @@ class Example3 extends Component {
             ],
             onSubmit: d => console.log(d),
             itemComponent: ItemComponent,
+            statusComponent: StatusComponent,
         };
 
         return <span>

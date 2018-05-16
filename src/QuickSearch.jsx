@@ -6,12 +6,11 @@ const noop = () => {};
 const defaultValue = {label:''}; // Used as return for empty array
 
 
+// For the following four, whitespace is important
 const IndicatorComponent = ({isSelected}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ' '} </Color>;
 };
 
-// Maybe I can add the label concept here by putting it next to children and
-// then I will be compatible in all APIs
 const ItemComponent = ({isSelected, children}) => (
     <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
 );
@@ -23,6 +22,7 @@ const HighlightComponent = ({children}) => (
 const StatusComponent = ({hasMatch, children}) => (
     <Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Color>
 );
+
 
 class QuickSearch extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class QuickSearch extends Component {
         const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1);
             const isSelected = (index === this.state.selectionIndex);
-            const isHighlighted = false;
+            const isHighlighted = undefined;
 
             const itemProps = {isSelected, isHighlighted};
 
@@ -50,8 +50,10 @@ class QuickSearch extends Component {
 
             let labelComponent = '';
             if (queryPosition === -1) {
+                itemProps.isHighlighted = false;
                 labelComponent = <span>{label}</span>
             } else {
+                itemProps.isHighlighted = true;
                 const start = queryPosition;
                 const end = start + this.state.query.length;
 
