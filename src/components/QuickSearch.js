@@ -43,7 +43,7 @@ class QuickSearch extends Component {
             const itemProps = {isSelected, isHighlighted}
 
             const label = item.label;
-            const queryPosition = this._getMatchPosition(label);
+            const queryPosition = this.getMatchPosition(label, this.state.query);
 
             let display = ""
             if (queryPosition === -1) {
@@ -97,9 +97,9 @@ class QuickSearch extends Component {
         const {query} = this.state
 
         if (key.name === 'return') {
-            this.props.onSubmit(this._getCurrentSelection());
+            this.props.onSubmit(this.getValue());
         } else if (key.name === 'backspace') {
-            this._refreshSelection(query.slice(0, -1));
+            this._updateQuery(query.slice(0, -1));
         } else if (key.name === 'up') {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
@@ -109,20 +109,20 @@ class QuickSearch extends Component {
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
-            this._refreshSelection(query + ch);
+            this._updateQuery(query + ch);
         }
 
         // console.log(ch, key);
 
     }
 
-    _refreshSelection(query) {
+    _updateQuery(query) {
         let selectionIndex = 0;
-        if (query.trim() === '' || this._getMatchPosition(this._getCurrentSelection().label, query) !== -1) {
+        if (query.trim() === '' || this.getMatchPosition(this.getValue().label, query) !== -1) {
             selectionIndex = this.state.selectionIndex;
         } else {
             for (var i = 0; i < this.props.items.length; i++) {
-                if (this._getMatchPosition(this.props.items[i].label, query) !== -1) {
+                if (this.getMatchPosition(this.props.items[i].label, query) !== -1) {
                     selectionIndex = i;
                     break;
                 }
@@ -144,14 +144,14 @@ class QuickSearch extends Component {
 
     }
 
-    _getMatchPosition(label, query=undefined) {
-        if (query == undefined) {
-            query = this.state.query;
+    getMatchPosition(label, query) {
+        if (query.trim === '') {
+            return -1;
         }
-        return query.trim() === '' ? -1 : label.indexOf(query)
+        return label.toLowerCase().indexOf(query.toLowerCase());
     }
 
-    _getCurrentSelection() {
+    getValue() {
         return this.props.items[this.state.selectionIndex];
     }
 }
