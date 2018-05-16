@@ -1,8 +1,8 @@
-const {h, render, Color, Component, Group} = require('ink');
+const {h, render, Color, Component} = require('ink');
 
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx')
 
-class UI extends Component {
+class Example1 extends Component {
     render() {
         const props = {
             items: [{
@@ -41,4 +41,4 @@ class UI extends Component {
     }
 }
 
-render(<UI/>);
+render(<Example1/>);
