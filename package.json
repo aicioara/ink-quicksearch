@@ -1,8 +1,14 @@
 {
   "name": "ink-quicksearch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Quicksearch Input Component for Ink",
   "main": "dist/index.js",
+  "author": {
+    "name": "Andrei Cioara",
+    "email": "github@andreicioara.com",
+    "url": "http://andrei.cioara.me"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "babel src/QuickSearch.jsx --out-file=dist/index.js",
     "eslint": "eslint src/**/*.jsx examples/**/*.jsx",
@@ -18,11 +24,6 @@
     "ink",
     "ink-component"
   ],
-  "author": {
-    "name": "Andrei Cioara",
-    "url": "http://andrei.cioara.me"
-  },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/aicioara/ink-quicksearch/issues"
   },
