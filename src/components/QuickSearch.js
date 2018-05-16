@@ -32,6 +32,7 @@ class QuickSearch extends Component {
 
         this.state = {
             query: '',
+            selectionIndex: 0,
         }
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -42,9 +43,11 @@ class QuickSearch extends Component {
         const ItemComponent = this.props.itemComponent;
         const IndicatorComponent = this.props.indicatorComponent;
 
+        let foundFirstSelection = false;
+
         const items = this.props.items.map((item, index) => {
             const isLast = (index === this.props.items.length - 1)
-            const isSelected = false;
+            const isSelected = (index === this.state.selectionIndex);
             const isHighlighted = false;
 
             const itemProps = {isSelected, isHighlighted}
@@ -96,29 +99,41 @@ class QuickSearch extends Component {
             return;
         }
 
-        // TODO: ups and downs come from here
-        if (hasAnsi(key.sequence)) {
-            return;
-        }
-
         const {onChange, onSubmit, value} = this.props
         const {query} = this.state
 
         if (key.name === 'return') {
             onSubmit(query);
             return;
-        }
-
-        if (key.name === 'backspace') {
+        } else if (key.name === 'backspace') {
             const newQuery = query.slice(0, -1);
             this.setState({query: newQuery})
+            return;
+        } else if (key.name === 'up') {
+            this._changeSelection(-1);
+            return;
+        } else if (key.name === 'down') {
+            this._changeSelection(1)
             return;
         }
 
         const newQuery = query + ch;
         this.setState({query: newQuery});
 
-        // console.log(ch, key);
+        console.log(ch, key);
+    }
+
+    // TODO: implement cycles
+    _changeSelection(delta) {
+        const selectionIndex = this.state.selectionIndex + delta;
+        if (selectionIndex < 0) {
+            return;
+        }
+        if (selectionIndex >= this.props.items.length) {
+            return;
+        }
+        this.setState({selectionIndex})
+
     }
 }
 
