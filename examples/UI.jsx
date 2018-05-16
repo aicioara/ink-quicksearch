@@ -1,6 +1,6 @@
 const {h, render, Color, Component, Group} = require('ink');
 
-const QuickSearch = require('import-jsx')('../src/index.js')
+const QuickSearch = require('import-jsx')('../src/QuickSearch.js')
 
 class UI extends Component {
     render() {
