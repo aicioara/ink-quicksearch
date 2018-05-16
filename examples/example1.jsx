@@ -18,7 +18,7 @@ class Example1 extends Component {
                 {value: 5, label: 'Aria'},
                 {value: 6, label: 'Arid'},
             ],
-            onSubmit: d => console.log('You selected', d),
+            onSelect: d => console.log('You selected', d),
         };
 
         return <span>

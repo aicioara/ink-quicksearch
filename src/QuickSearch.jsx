@@ -104,7 +104,7 @@ class QuickSearch extends Component {
         }
 
         if (key.name === 'return') {
-            this.props.onSubmit(this.getValue());
+            this.props.onSelect(this.getValue());
         } else if (key.name === 'backspace') {
             this._updateQuery(this.state.query.slice(0, -1));
         } else if (key.name === 'up') {
@@ -181,7 +181,7 @@ QuickSearch.initialState = {
 
 QuickSearch.defaultProps = {
     items: [],
-    onSubmit: noop,
+    onSelect: noop,
     focus: true,
     caseSensitive: false,
     indicatorComponent: IndicatorComponent,

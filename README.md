@@ -26,7 +26,7 @@ class Demo extends Component {
                 {value: 5, label: 'Aria'},
                 {value: 6, label: 'Arid'},
             ],
-            onSubmit: item => {
+            onSelect: item => {
                 // `item` = { label: 'First', value: 'first' }
             };,
         };

@@ -23,7 +23,7 @@ class Example2 extends Component {
                 {label: 'Aria'},
                 {label: 'Arid'},
             ],
-            onSubmit: d => console.log(d),
+            onSelect: d => console.log(d),
             caseSensitive: true,
             statusComponent: StatusComponent,
         };
