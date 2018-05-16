@@ -37,3 +37,95 @@ class Demo extends Component {
 
 render(<Demo/>);
 ```
+
+
+## Props
+
+
+
+### items
+
+Type: `array`<br>
+Default: `[]`
+
+Items to display in a list. Each item must be an object and have at least a `label` prop.
+
+
+
+### onSelect
+
+Type: `function`
+
+Function to call when user selects an item. Item object is passed to that function as an argument.
+
+
+
+### focus
+
+Type: `boolean`<br>
+Default: `true`
+
+Listen to user's input. Useful in case there are multiple input components at the same time and input must be "routed" to a specific component.
+
+
+
+### caseSensitive
+
+Type: `boolean`<br>
+Default: `false`
+
+Whether or not quicksearch matching will be case sensitive
+
+
+
+### indicatorComponent
+
+Type: `Component`
+
+Custom component to override the default indicator component (default - arrow).
+
+
+
+### itemComponent
+
+Type: `Component`
+
+Custom component to override the default item style (default - selection coloring).
+
+
+
+### highlightComponent
+
+Type: `Component`
+
+Custom component to override the default highlight style (default - background highlight).
+
+
+
+### statusComponent
+
+Type: `Component`
+
+Custom component to override the status component (default - current query).
+
+
+## Default Components
+
+```jsx
+// For the following four, whitespace is important
+const IndicatorComponent = ({isSelected}) => {
+    return <Color hex="#00FF00">{isSelected ? '>' : ' '} </Color>;
+};
+
+const ItemComponent = ({isSelected, children}) => (
+    <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
+);
+
+const HighlightComponent = ({children}) => (
+    <Color bgHex="#6C71C4">{children}</Color>
+);
+
+const StatusComponent = ({hasMatch, children}) => (
+    <Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Color>
+);
+```
