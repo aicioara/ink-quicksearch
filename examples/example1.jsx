@@ -1,3 +1,7 @@
+/**
+ * This is the basic usage example, including all defaults
+ */
+
 const {h, render, Color, Component} = require('ink');
 
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
@@ -5,32 +9,16 @@ const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 class Example1 extends Component {
     render() {
         const props = {
-            items: [{
-                label: 'Item 1',
-                value: 'item_1',
-            }, {
-                label: 'Item 2',
-                value: 'item_2',
-            }, {
-                label: 'Foo 3',
-                value: 'item_3',
-            }, {
-                label: 'Foo 4',
-                value: 'item_4',
-            }, {
-                label: 'Fos 4',
-                value: 'item_4',
-            }, {
-                label: 'Fos 4',
-                value: 'item_4',
-            }, {
-                label: 'Item 5',
-                value: 'item_5',
-            }, {
-                label: 'Item 6',
-                value: 'item_7',
-            }],
-            onSubmit: d => console.log(d),
+            items: [
+                {value: 1, label: 'Animal'},
+                {value: 3, label: 'Antilope'},
+                {value: 2, label: 'Animation'},
+                {value: 0, label: 'Animate'},
+                {value: 4, label: 'Arizona'},
+                {value: 5, label: 'Aria'},
+                {value: 6, label: 'Arid'},
+            ],
+            onSubmit: d => console.log('You selected', d),
         };
 
         return <span>

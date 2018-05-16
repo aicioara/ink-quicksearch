@@ -5,6 +5,7 @@ const isEqual = require('lodash.isequal');
 const noop = () => {};
 const defaultValue = {label:''}; // Used as return for empty array
 
+
 const IndicatorComponent = ({isSelected}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>;
 };
@@ -35,8 +36,10 @@ class QuickSearch extends Component {
         const HighlightComponent_ = this.props.highlightComponent;
         const ItemComponent_ = this.props.itemComponent;
         const IndicatorComponent_ = this.props.indicatorComponent;
+        const StatusComponent_ = this.props.statusComponent;
 
         const items = this.props.items.map((item, index) => {
+            const isLast = (index === this.props.items.length - 1);
             const isSelected = (index === this.state.selectionIndex);
             const isHighlighted = false;
 
@@ -65,13 +68,16 @@ class QuickSearch extends Component {
 
             return <span key={item.value}>
                 <IndicatorComponent_ {...itemProps}/>{display}
-                <br/>
+                {!isLast && <br/>}
             </span>;
         });
 
         return <span>
             {items}
-            <StatusComponent hasMatch={this.state.hasMatch}>{this.state.query}</StatusComponent>
+            <StatusComponent_ hasMatch={this.state.hasMatch}>
+                <br/>
+                {this.state.query}
+            </StatusComponent_>
         </span>;
     }
 
@@ -178,6 +184,7 @@ QuickSearch.defaultProps = {
     indicatorComponent: IndicatorComponent,
     itemComponent: ItemComponent,
     highlightComponent: HighlightComponent,
+    statusComponent: StatusComponent,
 };
 
 module.exports = QuickSearch;
