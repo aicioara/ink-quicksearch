@@ -19,6 +19,9 @@ const HighlightComponent = ({isSelected, isHighlighted, children}) => (
     <Color bgHex="#6C71C4">{children}</Color>
 );
 
+const StatusComponent = ({hasMatch, children}) => (
+    <Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Color>
+);
 
 class QuickSearch extends Component {
     constructor(props) {
@@ -69,7 +72,7 @@ class QuickSearch extends Component {
 
         return <span>
             {items}
-            <Color green> {this.state.query} </Color>
+            <StatusComponent hasMatch={this.state.hasMatch}>{this.state.query}</StatusComponent>
         </span>
     }
 
@@ -116,29 +119,43 @@ class QuickSearch extends Component {
 
     _updateQuery(query) {
         let selectionIndex = this.state.selectionIndex;
+        let hasMatch = false;
         if (query.trim() === '' || this.getMatchPosition(this.getValue().label, query) !== -1) {
-            // no-op
+            hasMatch = true;
         } else {
             for (var i = 0; i < this.props.items.length; i++) {
                 if (this.getMatchPosition(this.props.items[i].label, query) !== -1) {
                     selectionIndex = i;
+                    hasMatch = true;
                     break;
                 }
             }
         }
-        this.setState({selectionIndex, query})
+        console.log(hasMatch)
+        this.setState({selectionIndex, query, hasMatch})
     }
 
-    // TODO: implement selection jumps
     _changeSelection(delta) {
-        const selectionIndex = this.state.selectionIndex + delta;
-        if (selectionIndex < 0) {
-            return;
+        let selectionIndex = this.state.selectionIndex;
+        while (true) {
+            selectionIndex = selectionIndex + delta;
+            if (selectionIndex < 0) {
+                return;
+            }
+            if (selectionIndex >= this.props.items.length) {
+                return;
+            }
+
+            if (!this.state.hasMatch) {
+                this.setState({selectionIndex})
+                break;
+            }
+
+            if (this.getMatchPosition(this.props.items[selectionIndex].label, this.state.query) !== -1) {
+                this.setState({selectionIndex})
+                break;
+            }
         }
-        if (selectionIndex >= this.props.items.length) {
-            return;
-        }
-        this.setState({selectionIndex})
 
     }
 
@@ -170,6 +187,7 @@ QuickSearch.defaultProps = {
 
 QuickSearch.initialState = {
     query: '',
+    hasMatch: true,
     selectionIndex: 0,
     labels: [],
 };
