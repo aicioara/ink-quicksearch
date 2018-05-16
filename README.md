@@ -80,7 +80,10 @@ Whether or not quicksearch matching will be case sensitive
 
 ### indicatorComponent
 
-Type: `Component`
+Type: `Component`<br>
+Props:
+    - `isSelected`: `boolean`
+    - `isHighlighted`: `boolean`
 
 Custom component to override the default indicator component (default - arrow).
 
@@ -88,7 +91,10 @@ Custom component to override the default indicator component (default - arrow).
 
 ### itemComponent
 
-Type: `Component`
+Type: `Component`<br>
+Props:
+    - `isSelected`: `boolean`
+    - `isHighlighted`: `boolean`
 
 Custom component to override the default item style (default - selection coloring).
 
@@ -96,7 +102,10 @@ Custom component to override the default item style (default - selection colorin
 
 ### highlightComponent
 
-Type: `Component`
+Type: `Component`<br>
+Props:
+    - `isSelected`: `boolean`
+    - `isHighlighted`: `boolean`
 
 Custom component to override the default highlight style (default - background highlight).
 
@@ -104,9 +113,13 @@ Custom component to override the default highlight style (default - background h
 
 ### statusComponent
 
-Type: `Component`
+Type: `Component`<br>
+Props:
+    - `isSelected`: `boolean`
+    - `isHighlighted`: `boolean`
 
 Custom component to override the status component (default - current query).
+
 
 
 ## Default Components
