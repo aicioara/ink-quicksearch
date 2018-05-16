@@ -1,6 +1,6 @@
 const {h, render, Color, Component} = require('ink');
 
-const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx')
+const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 
 class Example1 extends Component {
     render() {
@@ -31,13 +31,13 @@ class Example1 extends Component {
                 value: 'item_7',
             }],
             onSubmit: d => console.log(d),
-        }
+        };
 
         return <span>
             <Color red> Example 1 </Color>
             <br/>
             <QuickSearch {...props}></QuickSearch>
-        </span>
+        </span>;
     }
 }
 

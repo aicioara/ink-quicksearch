@@ -6,8 +6,8 @@ const noop = () => {};
 const defaultValue = {label:''}; // Used for empty item array
 
 const IndicatorComponent = ({isSelected, children}) => {
-    return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>
-}
+    return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>;
+};
 
 // Maybe I can add the label concept here by putting it next to children and
 // then I will be compatible in all APIs
@@ -37,18 +37,18 @@ class QuickSearch extends Component {
         const IndicatorComponent_ = this.props.indicatorComponent;
 
         const items = this.props.items.map((item, index) => {
-            const isLast = (index === this.props.items.length - 1)
+            const isLast = (index === this.props.items.length - 1);
             const isSelected = (index === this.state.selectionIndex);
             const isHighlighted = false;
 
-            const itemProps = {isSelected, isHighlighted}
+            const itemProps = {isSelected, isHighlighted};
 
             const label = item.label;
             const queryPosition = this.getMatchPosition(label, this.state.query);
 
-            let display = ""
+            let display = '';
             if (queryPosition === -1) {
-                display = <ItemComponent_ {...itemProps}>{label}</ItemComponent_>
+                display = <ItemComponent_ {...itemProps}>{label}</ItemComponent_>;
             } else {
                 const start = queryPosition;
                 const end = start + this.state.query.length;
@@ -61,19 +61,19 @@ class QuickSearch extends Component {
                     {first}
                     <HighlightComponent_>{second}</HighlightComponent_>
                     {third}
-                </ItemComponent_>
+                </ItemComponent_>;
             }
 
             return <span key={item.value}>
                 <IndicatorComponent_ {...itemProps}/>{display}
                 <br/>
-            </span>
-        })
+            </span>;
+        });
 
         return <span>
             {items}
             <StatusComponent hasMatch={this.state.hasMatch}>{this.state.query}</StatusComponent>
-        </span>
+        </span>;
     }
 
     componentDidMount() {
@@ -102,9 +102,9 @@ class QuickSearch extends Component {
         } else if (key.name === 'up') {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
-            this._changeSelection(1)
+            this._changeSelection(1);
         } else if (key.name === 'escape') { // TODO: This is actually bugged
-            this.setState({query: ''})
+            this.setState({query: ''});
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
@@ -126,7 +126,7 @@ class QuickSearch extends Component {
                 }
             }
         }
-        this.setState({selectionIndex, query, hasMatch})
+        this.setState({selectionIndex, query, hasMatch});
     }
 
     _changeSelection(delta) {
@@ -141,12 +141,12 @@ class QuickSearch extends Component {
             }
 
             if (!this.state.hasMatch) {
-                this.setState({selectionIndex})
+                this.setState({selectionIndex});
                 break;
             }
 
             if (this.getMatchPosition(this.props.items[selectionIndex].label, this.state.query) !== -1) {
-                this.setState({selectionIndex})
+                this.setState({selectionIndex});
                 break;
             }
         }
