@@ -122,6 +122,7 @@ Type: `Component`<br>
 Props:
 
 - `hasMatch`: `boolean`
+- `children`: `any`
 
 Custom component to override the status component (default - current query).
 
