@@ -3,19 +3,19 @@ const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
 const noop = () => {};
-const defaultValue = {label:''}; // Used for empty item array
+const defaultValue = {label:''}; // Used as return for empty array
 
-const IndicatorComponent = ({isSelected, children}) => {
+const IndicatorComponent = ({isSelected}) => {
     return <Color hex="#00FF00">{isSelected ? '>' : ''}</Color>;
 };
 
 // Maybe I can add the label concept here by putting it next to children and
 // then I will be compatible in all APIs
-const ItemComponent = ({isSelected, isHighlighted, children}) => (
+const ItemComponent = ({isSelected, children}) => (
     <Color hex={isSelected ? '#00FF00' : ''}> {children} </Color>
 );
 
-const HighlightComponent = ({isSelected, isHighlighted, children}) => (
+const HighlightComponent = ({children}) => (
     <Color bgHex="#6C71C4">{children}</Color>
 );
 
@@ -37,7 +37,6 @@ class QuickSearch extends Component {
         const IndicatorComponent_ = this.props.indicatorComponent;
 
         const items = this.props.items.map((item, index) => {
-            const isLast = (index === this.props.items.length - 1);
             const isSelected = (index === this.state.selectionIndex);
             const isHighlighted = false;
 

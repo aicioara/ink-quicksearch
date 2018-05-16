@@ -25,7 +25,8 @@ module.exports = {
         "no-console": "off",
 
         // React
-        "react/prop-types": "off",
+        "react/prop-types": "off", // This is ink
+        "react/no-deprecated": "off", // This is ink
     },
     "settings": {
         "react": {
