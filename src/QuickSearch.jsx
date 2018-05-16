@@ -1,4 +1,4 @@
-const {h, render, Component, Color} = require('ink');
+const {h, Component, Color} = require('ink');
 const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
@@ -130,16 +130,11 @@ class QuickSearch extends Component {
     }
 
     _changeSelection(delta) {
-        let selectionIndex = this.state.selectionIndex;
-        while (true) {
-            selectionIndex = selectionIndex + delta;
-            if (selectionIndex < 0) {
-                return;
-            }
-            if (selectionIndex >= this.props.items.length) {
-                return;
-            }
-
+        for (
+            let selectionIndex = this.state.selectionIndex + delta;
+            0 <= selectionIndex && selectionIndex < this.props.items.length;
+            selectionIndex += delta
+        ) {
             if (!this.state.hasMatch) {
                 this.setState({selectionIndex});
                 break;
