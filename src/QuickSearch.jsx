@@ -176,7 +176,6 @@ QuickSearch.initialState = {
     query: '',
     hasMatch: true,
     selectionIndex: 0,
-    labels: [],
 };
 
 QuickSearch.defaultProps = {
