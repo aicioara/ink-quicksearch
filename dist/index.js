@@ -53,7 +53,7 @@ class QuickSearch extends Component {
             const isSelected = index === this.state.selectionIndex;
             const isHighlighted = undefined;
 
-            const itemProps = { isSelected, isHighlighted };
+            const itemProps = { isSelected, isHighlighted, item };
 
             const label = item.label;
             const queryPosition = this.getMatchPosition(label, this.state.query);
@@ -197,8 +197,7 @@ class QuickSearch extends Component {
 QuickSearch.initialState = {
     query: '',
     hasMatch: true,
-    selectionIndex: 0,
-    labels: []
+    selectionIndex: 0
 };
 
 QuickSearch.defaultProps = {
