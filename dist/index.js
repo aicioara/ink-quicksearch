@@ -81,7 +81,7 @@ class QuickSearch extends Component {
                     first,
                     h(
                         HighlightComponent_,
-                        null,
+                        itemProps,
                         second
                     ),
                     third

@@ -91,6 +91,7 @@ Props:
 
 - `isSelected`: `boolean`
 - `isHighlighted`: `boolean`
+- `item`: `Object` - The corresponding object inside `props.items`
 
 Custom component to override the default indicator component (default - arrow).
 
@@ -103,6 +104,7 @@ Props:
 
 - `isSelected`: `boolean`
 - `isHighlighted`: `boolean`
+- `item`: `Object` - The corresponding object inside `props.items`
 - `children`: `any`
 
 Custom component to override the default item style (default - selection coloring).
@@ -116,6 +118,7 @@ Props:
 
 - `isSelected`: `boolean`
 - `isHighlighted`: `boolean`
+- `item`: `Object` - The corresponding object inside `props.items`
 - `children`: `any`
 
 Custom component to override the default highlight style (default - background highlight).

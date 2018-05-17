@@ -63,7 +63,7 @@ class QuickSearch extends Component {
 
                 labelComponent = <span>
                     {first}
-                    <HighlightComponent_>{second}</HighlightComponent_>
+                    <HighlightComponent_ {...itemProps}>{second}</HighlightComponent_>
                     {third}
                 </span>;
             }
