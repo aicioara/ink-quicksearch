@@ -1,5 +1,5 @@
 /**
- * Example with limiting rows
+ * Limiting rows to current terminal size
  */
 
 const {h, render, Component} = require('ink');
@@ -50,6 +50,19 @@ class Example3 extends Component {
                 {label: 'Arctic Fox'},
                 {label: 'Arctic Hare'},
                 {label: 'Arctic Wolf'},
+                {label: 'Armadillo'},
+                {label: 'Asian Elephant'},
+                {label: 'Asian Giant Hornet'},
+                {label: 'Asian Palm Civet'},
+                {label: 'Asiatic Black Bear'},
+                {label: 'Australian Cattle Dog'},
+                {label: 'Australian Kelpie Dog'},
+                {label: 'Australian Mist'},
+                {label: 'Australian Shepherd'},
+                {label: 'Australian Terrier'},
+                {label: 'Avocet'},
+                {label: 'Axolotl'},
+                {label: 'Aye Aye'},
             ],
             onSelect: () => {},
             statusComponent: () => <span></span>,
@@ -62,6 +75,5 @@ class Example3 extends Component {
     }
 }
 
-console.log(termSize().rows);
 console.log('\x1Bc'); // Clear screen
 render(<Example3/>);

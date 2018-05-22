@@ -123,6 +123,8 @@ class QuickSearch extends Component {
             } else {
                 this._changeSelection(-1);
             }
+        } else if (key.name === 'pageup' || key.name === 'pagedown') {
+            this._handlePageChange(key.name);
         } else if (key.name === 'escape') { // TODO: This is actually bugged
             this.setState({query: ''});
         } else if (hasAnsi(key.sequence)) {
@@ -188,10 +190,23 @@ class QuickSearch extends Component {
         }
     }
 
-    getMatchPosition(label, query) {
-        if (query.trim === '') {
-            return -1;
+    _handlePageChange(keyName) {
+        if (this.state.query.trim() !== '') {
+            return; // Do not page when selecting
         }
+        if (this.props.limit === 0) {
+            return; // Nothing to page
+        }
+        let newIndex = this.state.selectionIndex;
+        if (keyName === 'pageup') {
+            newIndex = Math.max(this.state.selectionIndex - this.props.limit + 1, 0);
+        } else if (keyName === 'pagedown') {
+            newIndex = Math.min(this.state.selectionIndex + this.props.limit - 1, this.props.items.length - 1);
+        }
+        this._changeSelection(newIndex - this.state.selectionIndex);
+    }
+
+    getMatchPosition(label, query) {
         if (this.props.caseSensitive) {
             return label.indexOf(query);
         } else {
