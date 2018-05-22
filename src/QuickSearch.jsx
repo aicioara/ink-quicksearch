@@ -147,7 +147,8 @@ class QuickSearch extends Component {
                 }
             }
         }
-        this.setState({selectionIndex, query, hasMatch});
+        this._updateSelectionIndex(selectionIndex)
+        this.setState({query, hasMatch});
     }
 
     _changeSelection(delta) {
@@ -157,16 +158,19 @@ class QuickSearch extends Component {
             selectionIndex += delta
         ) {
             if (!this.state.hasMatch) {
-                this.setState({selectionIndex});
+                this._updateSelectionIndex(selectionIndex);
                 break;
             }
 
             if (this.getMatchPosition(this.props.items[selectionIndex].label, this.state.query) !== -1) {
-                this.setState({selectionIndex});
+                this._updateSelectionIndex(selectionIndex);
                 break;
             }
         }
+    }
 
+    _updateSelectionIndex(selectionIndex) {
+        this.setState({selectionIndex});
     }
 
     getMatchPosition(label, query) {
