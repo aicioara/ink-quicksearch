@@ -2,7 +2,7 @@
  * Example with limiting rows
  */
 
-const {h, render, Color, Component} = require('ink');
+const {h, render, Component} = require('ink');
 const termSize = require('term-size');
 
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
@@ -62,6 +62,6 @@ class Example3 extends Component {
     }
 }
 
-console.log(termSize().rows)
+console.log(termSize().rows);
 console.log('\x1Bc'); // Clear screen
 render(<Example3/>);

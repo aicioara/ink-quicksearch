@@ -146,7 +146,7 @@ class QuickSearch extends Component {
                 }
             }
         }
-        this._updateSelectionIndex(selectionIndex)
+        this._updateSelectionIndex(selectionIndex);
         this.setState({query, hasMatch});
     }
 
@@ -179,10 +179,10 @@ class QuickSearch extends Component {
             return;
         } else if (selectionIndex >= end) {
             if (selectionIndex >= this.props.items.length) {
-                throw Error(`Wanted to select an index (${selectionIndex}) outside items range (${this.props.items.length}).`);
+                throw Error(`Error: selection index (${selectionIndex}) outside items range (${this.props.items.length}).`);
             }
             const startIndex = selectionIndex - this.props.limit + 1;
-            this.setState({startIndex})
+            this.setState({startIndex});
         } else { // if (selectionIndex < begin)
             this.setState({startIndex: selectionIndex});
         }
