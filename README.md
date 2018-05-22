@@ -153,6 +153,16 @@ Default: `false`
 If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
 
 
+### clearQueryChars
+
+Type: `Array(char)`<br>
+Default: `['\u0015', '\u0017']` (`Ctrl` + `u` | `Ctrl` + `w`)
+
+Key Combinations that will clear the query.
+The character follow API in `process.stdin.on('keypress', (ch, key) => {})`
+
+
+
 ## Default Components
 
 ```jsx

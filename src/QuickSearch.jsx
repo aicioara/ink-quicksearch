@@ -109,7 +109,9 @@ class QuickSearch extends Component {
             return;
         }
 
-        if (key.name === 'return') {
+        if (this.props.clearQueryChars.indexOf(ch) !== -1) {
+            this.setState({query: ''});
+        } else if (key.name === 'return') {
             this.props.onSelect(this.getValue());
         } else if (key.name === 'backspace') {
             this._updateQuery(this.state.query.slice(0, -1));
@@ -125,8 +127,6 @@ class QuickSearch extends Component {
             }
         } else if (key.name === 'pageup' || key.name === 'pagedown') {
             this._handlePageChange(key.name);
-        } else if (key.name === 'escape') { // TODO: This is actually bugged
-            this.setState({query: ''});
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
@@ -242,6 +242,10 @@ QuickSearch.defaultProps = {
     statusComponent: StatusComponent,
     limit: 0,
     forceMatchingQuery: false,
+    clearQueryChars: [
+        '\u0015', // Ctrl + U
+        '\u0017', // Ctrl + W
+    ],
 };
 
 module.exports = QuickSearch;
