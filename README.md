@@ -145,6 +145,13 @@ Limit the number of rows to display. `0` is unlimited <br>
 Use in conjunction with https://www.npmjs.com/package/term-size
 
 
+### forceMatchingQuery
+
+Type: `bool`<br>
+Default: `false`
+
+If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
+
 
 ## Default Components
 

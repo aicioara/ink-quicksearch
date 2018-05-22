@@ -148,6 +148,11 @@ class QuickSearch extends Component {
                 }
             }
         }
+
+        if (!hasMatch && this.props.forceMatchingQuery) {
+            return;
+        }
+
         this._updateSelectionIndex(selectionIndex);
         this.setState({query, hasMatch});
     }
@@ -236,6 +241,7 @@ QuickSearch.defaultProps = {
     highlightComponent: HighlightComponent,
     statusComponent: StatusComponent,
     limit: 0,
+    forceMatchingQuery: false,
 };
 
 module.exports = QuickSearch;
