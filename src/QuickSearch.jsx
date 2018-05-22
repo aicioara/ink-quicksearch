@@ -236,16 +236,16 @@ QuickSearch.defaultProps = {
     onSelect: () => {}, // no-op
     focus: true,
     caseSensitive: false,
-    indicatorComponent: IndicatorComponent,
-    itemComponent: ItemComponent,
-    highlightComponent: HighlightComponent,
-    statusComponent: StatusComponent,
     limit: 0,
     forceMatchingQuery: false,
     clearQueryChars: [
         '\u0015', // Ctrl + U
         '\u0017', // Ctrl + W
     ],
+    indicatorComponent: IndicatorComponent,
+    itemComponent: ItemComponent,
+    highlightComponent: HighlightComponent,
+    statusComponent: StatusComponent,
 };
 
 module.exports = QuickSearch;

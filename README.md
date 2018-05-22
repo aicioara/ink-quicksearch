@@ -11,6 +11,7 @@ $ npm install ink-quicksearch
 ## Quickstart
 
 ```bash
+npm install
 npm start
 ```
 
@@ -84,6 +85,35 @@ Whether or not quicksearch matching will be case sensitive
 
 
 
+### limit
+
+Type: `int`<br>
+Default: `0`
+
+Limit the number of rows to display. `0` is unlimited <br>
+Use in conjunction with https://www.npmjs.com/package/term-size
+
+
+
+### forceMatchingQuery
+
+Type: `bool`<br>
+Default: `false`
+
+If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
+
+
+
+### clearQueryChars
+
+Type: `Array(char)`<br>
+Default: `['\u0015', '\u0017']` (`Ctrl` + `u` | `Ctrl` + `w`)
+
+Key Combinations that will clear the query. <br>
+`ch` follows the `keypress` API `process.stdin.on('keypress', (ch, key) => {})`
+
+
+
 ### indicatorComponent
 
 Type: `Component`<br>
@@ -134,32 +164,6 @@ Props:
 - `children`: `any`
 
 Custom component to override the status component (default - current query).
-
-
-### limit
-
-Type: `int`<br>
-Default: `0`
-
-Limit the number of rows to display. `0` is unlimited <br>
-Use in conjunction with https://www.npmjs.com/package/term-size
-
-
-### forceMatchingQuery
-
-Type: `bool`<br>
-Default: `false`
-
-If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
-
-
-### clearQueryChars
-
-Type: `Array(char)`<br>
-Default: `['\u0015', '\u0017']` (`Ctrl` + `u` | `Ctrl` + `w`)
-
-Key Combinations that will clear the query.
-The character follow API in `process.stdin.on('keypress', (ch, key) => {})`
 
 
 
