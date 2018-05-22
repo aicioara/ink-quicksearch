@@ -128,7 +128,9 @@ class QuickSearch extends Component {
     componentWillReceiveProps(nextProps) {
         if (!isEqual(this.props.items, nextProps.items)) {
             this.setState(QuickSearch.initialState);
-            this.setState({ selectionIndex: this.props.initialSelectionIndex });
+            if (nextProps.initialSelectionIndex != null) {
+                this.setState({ selectionIndex: nextProps.initialSelectionIndex });
+            }
         }
     }
 

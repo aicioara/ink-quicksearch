@@ -9,7 +9,7 @@ const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 class Example1 extends Component {
     constructor(props) {
         super(props);
-        this.state = {setIndex: 0}
+        this.state = {setIndex: 0};
     }
 
     render() {
@@ -33,12 +33,12 @@ class Example1 extends Component {
 
         const props = {
             items: sets[this.state.setIndex],
-            onSelect: d => this.setState({setIndex: this.state.setIndex ^ 1}),
+            onSelect: () => this.setState({setIndex: this.state.setIndex ^ 1}),
             initialSelectionIndex: selection[this.state.setIndex],
         };
 
         return <span>
-            <Color red> Example 1 </Color>
+            <Color red> Example 5 </Color>
             <br/>
             <QuickSearch {...props} />
         </span>;
