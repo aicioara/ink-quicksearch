@@ -136,6 +136,15 @@ Props:
 Custom component to override the status component (default - current query).
 
 
+### limit
+
+Type: `int`<br>
+Default: `0`
+
+Limit the number of rows to display. `0` is unlimited <br>
+Use in conjunction with https://www.npmjs.com/package/term-size
+
+
 
 ## Default Components
 

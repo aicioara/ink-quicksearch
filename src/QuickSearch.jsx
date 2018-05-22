@@ -187,6 +187,7 @@ QuickSearch.defaultProps = {
     itemComponent: ItemComponent,
     highlightComponent: HighlightComponent,
     statusComponent: StatusComponent,
+    limit: 0,
 };
 
 module.exports = QuickSearch;
