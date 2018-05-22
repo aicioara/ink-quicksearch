@@ -2,7 +2,6 @@ const {h, Component, Color} = require('ink');
 const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
-const noop = () => {};
 const defaultValue = {label:''}; // Used as return for empty array
 
 
@@ -47,7 +46,7 @@ class QuickSearch extends Component {
 
         const rows = items.map((item, index) => {
             const isLast = (index === items.length - 1);
-            const isSelected = (index === this.state.selectionIndex);
+            const isSelected = (index + this.state.startIndex === this.state.selectionIndex);
             const isHighlighted = undefined;
 
             const itemProps = {isSelected, isHighlighted, item};
@@ -171,6 +170,22 @@ class QuickSearch extends Component {
 
     _updateSelectionIndex(selectionIndex) {
         this.setState({selectionIndex});
+        if (this.props.limit === 0) {
+            return;
+        }
+        const begin = this.state.startIndex;
+        const end = Math.min(begin + this.props.limit, this.props.items.length);
+        if (begin <= selectionIndex && selectionIndex < end) {
+            return;
+        } else if (selectionIndex >= end) {
+            if (selectionIndex >= this.props.items.length) {
+                throw Error(`Wanted to select an index (${selectionIndex}) outside items range (${this.props.items.length}).`);
+            }
+            const startIndex = selectionIndex - this.props.limit + 1;
+            this.setState({startIndex})
+        } else { // if (selectionIndex < begin)
+            this.setState({startIndex: selectionIndex});
+        }
     }
 
     getMatchPosition(label, query) {
@@ -198,7 +213,7 @@ QuickSearch.initialState = {
 
 QuickSearch.defaultProps = {
     items: [],
-    onSelect: noop,
+    onSelect: () => {}, // no-op
     focus: true,
     caseSensitive: false,
     indicatorComponent: IndicatorComponent,
