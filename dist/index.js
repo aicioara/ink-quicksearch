@@ -129,7 +129,7 @@ class QuickSearch extends Component {
         if (!isEqual(this.props.items, nextProps.items)) {
             this.setState(QuickSearch.initialState);
             if (nextProps.initialSelectionIndex != null) {
-                this.setState({ selectionIndex: nextProps.initialSelectionIndex });
+                this._updateSelectionIndex(nextProps.initialSelectionIndex, nextProps);
             }
         }
     }
@@ -201,20 +201,23 @@ class QuickSearch extends Component {
         }
     }
 
-    _updateSelectionIndex(selectionIndex) {
+    _updateSelectionIndex(selectionIndex, props) {
+        if (props == undefined) {
+            props = this.props;
+        }
         this.setState({ selectionIndex });
-        if (this.props.limit === 0) {
+        if (props.limit === 0) {
             return;
         }
         const begin = this.state.startIndex;
-        const end = Math.min(begin + this.props.limit, this.props.items.length);
+        const end = Math.min(begin + props.limit, props.items.length);
         if (begin <= selectionIndex && selectionIndex < end) {
             return;
         } else if (selectionIndex >= end) {
-            if (selectionIndex >= this.props.items.length) {
-                throw Error(`Error: selection index (${selectionIndex}) outside items range (${this.props.items.length}).`);
+            if (selectionIndex >= props.items.length) {
+                throw Error(`Error: selection index (${selectionIndex}) outside items range (${props.items.length}).`);
             }
-            const startIndex = selectionIndex - this.props.limit + 1;
+            const startIndex = selectionIndex - props.limit + 1;
             this.setState({ startIndex });
         } else {
             // if (selectionIndex < begin)
