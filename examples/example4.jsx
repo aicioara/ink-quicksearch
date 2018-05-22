@@ -67,6 +67,7 @@ class Example3 extends Component {
             onSelect: () => {},
             statusComponent: () => <span></span>,
             limit: termSize().rows - 2, // One for clear screen, one for cursor
+                                        // Could be 1 more for statusComponent if that exists
         };
 
         return <span>
