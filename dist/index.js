@@ -2,7 +2,6 @@ const { h, Component, Color } = require('ink');
 const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
 
-const noop = () => {};
 const defaultValue = { label: '' }; // Used as return for empty array
 
 
@@ -48,9 +47,16 @@ class QuickSearch extends Component {
         const IndicatorComponent_ = this.props.indicatorComponent;
         const StatusComponent_ = this.props.statusComponent;
 
-        const items = this.props.items.map((item, index) => {
-            const isLast = index === this.props.items.length - 1;
-            const isSelected = index === this.state.selectionIndex;
+        const begin = this.state.startIndex;
+        let end = this.props.items.length;
+        if (this.props.limit !== 0) {
+            end = Math.min(begin + this.props.limit, this.props.items.length);
+        }
+        const items = this.props.items.slice(begin, end);
+
+        const rows = items.map((item, index) => {
+            const isLast = index === items.length - 1;
+            const isSelected = index + this.state.startIndex === this.state.selectionIndex;
             const isHighlighted = undefined;
 
             const itemProps = { isSelected, isHighlighted, item };
@@ -100,7 +106,7 @@ class QuickSearch extends Component {
         return h(
             'span',
             null,
-            items,
+            rows,
             h(
                 StatusComponent_,
                 { hasMatch: this.state.hasMatch },
@@ -129,7 +135,9 @@ class QuickSearch extends Component {
             return;
         }
 
-        if (key.name === 'return') {
+        if (this.props.clearQueryChars.indexOf(ch) !== -1) {
+            this.setState({ query: '' });
+        } else if (key.name === 'return') {
             this.props.onSelect(this.getValue());
         } else if (key.name === 'backspace') {
             this._updateQuery(this.state.query.slice(0, -1));
@@ -137,9 +145,14 @@ class QuickSearch extends Component {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
             this._changeSelection(1);
-        } else if (key.name === 'escape') {
-            // TODO: This is actually bugged
-            this.setState({ query: '' });
+        } else if (key.name === 'tab') {
+            if (key.shift === false) {
+                this._changeSelection(1);
+            } else {
+                this._changeSelection(-1);
+            }
+        } else if (key.name === 'pageup' || key.name === 'pagedown') {
+            this._handlePageChange(key.name);
         } else if (hasAnsi(key.sequence)) {
             // No-op
         } else {
@@ -161,27 +174,67 @@ class QuickSearch extends Component {
                 }
             }
         }
-        this.setState({ selectionIndex, query, hasMatch });
+
+        if (!hasMatch && this.props.forceMatchingQuery) {
+            return;
+        }
+
+        this._updateSelectionIndex(selectionIndex);
+        this.setState({ query, hasMatch });
     }
 
     _changeSelection(delta) {
         for (let selectionIndex = this.state.selectionIndex + delta; 0 <= selectionIndex && selectionIndex < this.props.items.length; selectionIndex += delta) {
             if (!this.state.hasMatch) {
-                this.setState({ selectionIndex });
+                this._updateSelectionIndex(selectionIndex);
                 break;
             }
 
             if (this.getMatchPosition(this.props.items[selectionIndex].label, this.state.query) !== -1) {
-                this.setState({ selectionIndex });
+                this._updateSelectionIndex(selectionIndex);
                 break;
             }
         }
     }
 
-    getMatchPosition(label, query) {
-        if (query.trim === '') {
-            return -1;
+    _updateSelectionIndex(selectionIndex) {
+        this.setState({ selectionIndex });
+        if (this.props.limit === 0) {
+            return;
         }
+        const begin = this.state.startIndex;
+        const end = Math.min(begin + this.props.limit, this.props.items.length);
+        if (begin <= selectionIndex && selectionIndex < end) {
+            return;
+        } else if (selectionIndex >= end) {
+            if (selectionIndex >= this.props.items.length) {
+                throw Error(`Error: selection index (${selectionIndex}) outside items range (${this.props.items.length}).`);
+            }
+            const startIndex = selectionIndex - this.props.limit + 1;
+            this.setState({ startIndex });
+        } else {
+            // if (selectionIndex < begin)
+            this.setState({ startIndex: selectionIndex });
+        }
+    }
+
+    _handlePageChange(keyName) {
+        if (this.state.query.trim() !== '') {
+            return; // Do not page when selecting
+        }
+        if (this.props.limit === 0) {
+            return; // Nothing to page
+        }
+        let newIndex = this.state.selectionIndex;
+        if (keyName === 'pageup') {
+            newIndex = Math.max(this.state.selectionIndex - this.props.limit + 1, 0);
+        } else if (keyName === 'pagedown') {
+            newIndex = Math.min(this.state.selectionIndex + this.props.limit - 1, this.props.items.length - 1);
+        }
+        this._changeSelection(newIndex - this.state.selectionIndex);
+    }
+
+    getMatchPosition(label, query) {
         if (this.props.caseSensitive) {
             return label.indexOf(query);
         } else {
@@ -197,14 +250,19 @@ class QuickSearch extends Component {
 QuickSearch.initialState = {
     query: '',
     hasMatch: true,
-    selectionIndex: 0
+    selectionIndex: 0,
+    startIndex: 0
 };
 
 QuickSearch.defaultProps = {
     items: [],
-    onSelect: noop,
+    onSelect: () => {}, // no-op
     focus: true,
     caseSensitive: false,
+    limit: 0,
+    forceMatchingQuery: false,
+    clearQueryChars: ['\u0015', // Ctrl + U
+    '\u0017'],
     indicatorComponent: IndicatorComponent,
     itemComponent: ItemComponent,
     highlightComponent: HighlightComponent,
