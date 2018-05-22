@@ -38,8 +38,15 @@ class QuickSearch extends Component {
         const IndicatorComponent_ = this.props.indicatorComponent;
         const StatusComponent_ = this.props.statusComponent;
 
-        const items = this.props.items.map((item, index) => {
-            const isLast = (index === this.props.items.length - 1);
+        const begin = this.state.startIndex;
+        let end = this.props.items.length;
+        if (this.props.items.length !== 0) {
+            end = Math.min(begin + this.props.limit, this.props.items.length);
+        }
+        const items = this.props.items.slice(begin, end);
+
+        const rows = items.map((item, index) => {
+            const isLast = (index === items.length - 1);
             const isSelected = (index === this.state.selectionIndex);
             const isHighlighted = undefined;
 
@@ -76,7 +83,7 @@ class QuickSearch extends Component {
         });
 
         return <span>
-            {items}
+            {rows}
             <StatusComponent_ hasMatch={this.state.hasMatch}>
                 <br/>
                 {this.state.query}
@@ -176,6 +183,7 @@ QuickSearch.initialState = {
     query: '',
     hasMatch: true,
     selectionIndex: 0,
+    startIndex: 0,
 };
 
 QuickSearch.defaultProps = {
