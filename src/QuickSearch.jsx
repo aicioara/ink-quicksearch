@@ -40,7 +40,7 @@ class QuickSearch extends Component {
 
         const begin = this.state.startIndex;
         let end = this.props.items.length;
-        if (this.props.items.length !== 0) {
+        if (this.props.limit !== 0) {
             end = Math.min(begin + this.props.limit, this.props.items.length);
         }
         const items = this.props.items.slice(begin, end);
@@ -118,6 +118,12 @@ class QuickSearch extends Component {
             this._changeSelection(-1);
         } else if (key.name === 'down') {
             this._changeSelection(1);
+        } else if (key.name === 'tab') {
+            if (key.shift === false) {
+                this._changeSelection(1);
+            } else {
+                this._changeSelection(-1);
+            }
         } else if (key.name === 'escape') { // TODO: This is actually bugged
             this.setState({query: ''});
         } else if (hasAnsi(key.sequence)) {
