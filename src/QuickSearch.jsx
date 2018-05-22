@@ -27,6 +27,7 @@ class QuickSearch extends Component {
     constructor(props) {
         super(props);
         this.state = QuickSearch.initialState;
+        this.state.selectionIndex = this.props.initialSelectionIndex;
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
@@ -101,6 +102,7 @@ class QuickSearch extends Component {
     componentWillReceiveProps(nextProps) {
         if (!isEqual(this.props.items, nextProps.items)) {
             this.setState(QuickSearch.initialState);
+            this.setState({selectionIndex: this.props.initialSelectionIndex});
         }
     }
 
@@ -242,6 +244,7 @@ QuickSearch.defaultProps = {
         '\u0015', // Ctrl + U
         '\u0017', // Ctrl + W
     ],
+    initialSelectionIndex: 0,
     indicatorComponent: IndicatorComponent,
     itemComponent: ItemComponent,
     highlightComponent: HighlightComponent,

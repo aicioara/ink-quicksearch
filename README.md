@@ -114,6 +114,15 @@ Key Combinations that will clear the query. <br>
 
 
 
+### initialSelectionIndex
+
+Type: `int`<br>
+Default: `0`
+
+Selection index when the component is initially rendered or when `props.items` changes. Can be set together with new `props.items` to automatically select an option.
+
+
+
 ### indicatorComponent
 
 Type: `Component`<br>
