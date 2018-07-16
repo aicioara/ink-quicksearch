@@ -50,69 +50,15 @@ render(<Demo/>);
 
 ## Props
 
-
-
-### items
-
-Type: `array`<br>
-Default: `[]`
-
-Items to display in a list. Each item must be an object and have at least a `label` prop.
-
-
-
-### onSelect
-
-Type: `function`
-
-Function to call when user selects an item. Item object is passed to that function as an argument.
-
-
-
-### focus
-
-Type: `boolean`<br>
-Default: `true`
-
-Listen to user's input. Useful in case there are multiple input components at the same time and input must be "routed" to a specific component.
-
-
-
-### caseSensitive
-
-Type: `boolean`<br>
-Default: `false`
-
-Whether or not quicksearch matching will be case sensitive
-
-
-
-### limit
-
-Type: `int`<br>
-Default: `0`
-
-Limit the number of rows to display. `0` is unlimited <br>
-Use in conjunction with https://www.npmjs.com/package/term-size
-
-
-
-### forceMatchingQuery
-
-Type: `bool`<br>
-Default: `false`
-
-If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
-
-
-
-### clearQueryChars
-
-Type: `Array(char)`<br>
-Default: `['\u0015', '\u0017']` (`Ctrl` + `u` | `Ctrl` + `w`)
-
-Key Combinations that will clear the query. <br>
-`ch` follows the `keypress` API `process.stdin.on('keypress', (ch, key) => {})`
+| Parameter | Type | Default | Description
+| --- | --- | --- | --- |
+| items | `Array(object)` | `[]` | Items to display in a list. <br> Each item must be an object and have at least a `label` prop. |
+| onSelect | `function` | | Function to call when user selects an item. <br> Item object is passed to that function as an argument.
+| focus | `boolean` | `true` | Listen to user's input. <br> Useful in case there are multiple input components at the same time and input must be "routed" to a specific component.
+| caseSensitive | `boolean` | `false` | Whether or not quicksearch matching will be case sensitive
+| limit | `int` | `0` | Limit the number of rows to display. `0` is unlimited <br> Use in conjunction with https://www.npmjs.com/package/term-size
+| forceMatchingQuery | `bool` | `false` | If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`
+| clearQueryChars | `Array(char)` | `['\u0015', '\u0017']` <br> (<kbd>Ctrl</kbd> + <kbd>u</kbd>, <kbd>Ctrl</kbd> + <kbd>w</kbd>) | Key Combinations that will clear the query. <br> `ch` follows the `keypress` API `process.stdin.on('keypress', (ch, key) => {})`
 
 
 
