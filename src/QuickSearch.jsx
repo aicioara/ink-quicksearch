@@ -103,7 +103,7 @@ class QuickSearch extends Component {
         if (!isEqual(this.props.items, nextProps.items)) {
             this.setState(QuickSearch.initialState);
             if (nextProps.initialSelectionIndex != null) {
-                this._updateSelectionIndex(nextProps.initialSelectionIndex, nextProps)
+                this._updateSelectionIndex(nextProps.initialSelectionIndex, nextProps);
             }
         }
     }
@@ -181,7 +181,7 @@ class QuickSearch extends Component {
 
     _updateSelectionIndex(selectionIndex, props) {
         if (props == undefined) {
-            props = this.props
+            props = this.props;
         }
         this.setState({selectionIndex});
         if (props.limit === 0) {
