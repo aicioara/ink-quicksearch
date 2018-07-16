@@ -1,6 +1,6 @@
 const {h, Component, Color} = require('ink');
 const hasAnsi = require('has-ansi');
-const isEqual = require('lodash.isequal')
+const isEqual = require('lodash.isequal');
 
 const defaultValue = {label:''}; // Used as return for empty array
 
