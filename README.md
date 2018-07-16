@@ -2,6 +2,8 @@
 
 > QuickSearch Component for [Ink](https://github.com/vadimdemedes/ink)
 
+![CircleCI](https://circleci.com/gh/aicioara/ink-quicksearch.png?style=shield&circle-token=:circle-token)
+
 ## Install
 
 ```
