@@ -63,7 +63,7 @@ render(<Demo/>);
 | indicatorComponent | Component | | Custom component to override the default indicator component (default - arrow).
 | itemComponent | Component | | Custom component to override the default item style (default - selection coloring).
 | highlightComponent | Component | | Custom component to override the default highlight style (default - background highlight).
-| statusComponent | Component | Custom component to override the status component (default - current query).
+| statusComponent | Component | | Custom component to override the status component (default - current query).
 
 ## Component Props
 
