@@ -1,13 +1,14 @@
-# Ink Quicksearch
+# Ink 2 Quicksearch
 
-> QuickSearch Component for [Ink](https://github.com/vadimdemedes/ink)
+> QuickSearch Component for [Ink 2](https://github.com/vadimdemedes/ink)
 
-![CircleCI](https://circleci.com/gh/aicioara/ink-quicksearch.png?style=shield&circle-token=:circle-token)
+> Forked from the origiinal [`ink-quicksearch`](https://github.com/aicioara/ink-quicksearch) to upgrade it to Ink 2.
+
 
 ## Install
 
 ```
-$ npm install ink-quicksearch
+$ npm install ink2-quicksearch
 ```
 
 ## Quickstart
