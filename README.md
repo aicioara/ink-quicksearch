@@ -37,7 +37,7 @@ class Demo extends Component {
             ],
             onSelect: item => {
                 // `item` = { label: 'First', value: 'first' }
-            };,
+            },
         };
 
         return <QuickSearch {...props} />
