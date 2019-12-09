@@ -11,7 +11,7 @@ export const Example4: FC = () => {
     <>
       <Text key='header'>Example 4: {Example4Name}</Text>
       <Color green key='selected-item'>Selected item is {selectedValue}</Color>
-      { '\n\n' }
+      <Text key='spacer'>{ '\n' }</Text>
       <QuickSearch key='input' {...{
             items: [
                 {label: 'Aardvark'},
@@ -68,9 +68,8 @@ export const Example4: FC = () => {
                 {label: 'Aye Aye'},
             ],
             onSelect: d => setSelectedValue(d.label),
-            statusComponent: () => <></>,
             forceMatchingQuery: true,
-            limit: termSize().rows - 2, // One for clear screen, one for cursor (Could be 1 more for statusComponent if that exists)
+            limit: termSize().rows - 8, // One for clear screen, one for cursor (Could be 1 more for statusComponent if that exists)
         }} />
     </>
   )

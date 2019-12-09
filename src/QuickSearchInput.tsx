@@ -230,7 +230,7 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
 
     return (
         <Box flexDirection='column'>
-            <Box>
+            <Box key='status-label'>
                 <Status label={label} hasMatch={visibleItems.length > 0}>
                     {query}
                 </Status>
@@ -269,7 +269,7 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
             {
                 !usingLimitedView ? null : (
                     <Box key='num-visible-items'>
-                    <Text>Viewing {begin}-{end} of {matchingItems.length} matching items</Text>
+                        <HighlightComponent>Viewing {begin}-{end} of {matchingItems.length} matching items ({items.length} items overall)</HighlightComponent>
                     </Box>
                 )
             }
