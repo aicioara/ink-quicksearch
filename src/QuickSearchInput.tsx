@@ -229,7 +229,7 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
     const visibleItems = matchingItems.slice(begin, end);
 
     return (
-        <Box flexDirection='column'>
+        <Box key='quicksearch-input' flexDirection='column'>
             <Box key='status-label'>
                 <Status label={label} hasMatch={visibleItems.length > 0}>
                     {query}
@@ -257,7 +257,7 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
                             <Text>{preMatch}<Highlight>{match}</Highlight>{postMatch}</Text>
                         )
                         return (
-                            <Box flexDirection='row' key={item.label}>
+                            <Box flexDirection='row' key={`item-${item.label}`}>
                                 <Item {...itemProps}>
                                     <Indicator {...itemProps} />
                                     {labelComponent}
