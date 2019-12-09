@@ -2,8 +2,7 @@
 
 > QuickSearch Component for [Ink 2](https://github.com/vadimdemedes/ink)
 
-Forked from the origiinal [`ink-quicksearch`](https://github.com/aicioara/ink-quicksearch) to upgrade it to Ink 2.  Big thanks to @aicioara for laying out the core logic!  The re-write uses modern function
-components and hooks.  It is also in Typescript, improving the developer experience.
+Forked from [@aicioara](https://github.com/aicioara)'s original [`ink-quicksearch`](https://github.com/aicioara/ink-quicksearch) component to upgrade it to Ink 2.  Big thanks to him for laying out the original logic in v1!  If you are looking for a component that works with Ink v1, that's where to go.  This re-write uses modern React (e.g. function components and hooks), and it is also in Typescript, improving the developer experience.
 
 
 ## Install

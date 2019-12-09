@@ -37,7 +37,7 @@ export interface StatusProps {
 }
 
 const StatusComponent: FC<StatusProps> = ({ hasMatch, children, label }) => (
-<Text><Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{ `${label || 'Query'}: ` }</Color>{children}</Text>
+    <Text><Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{`${label || 'Query'}: `}</Color>{children}</Text>
 );
 
 export interface Item {
@@ -113,7 +113,7 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
             setQuery('');
         }
     }, [items])
-    
+
     const getValue = () => {
         return matchingItems[windowIndices.selection] || defaultValue;
     }
@@ -164,15 +164,15 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
                 // it is already 0.
                 newSelection -= 1;
                 if (usingLimitedView) {
-                    if (selection - start <= 1 && start > 0 ) {
+                    if (selection - start <= 1 && start > 0) {
                         newStart -= 1;
                     }
                 }
             }
-            return { 
+            return {
                 selection: newSelection,
                 start: newStart
-             }
+            }
         })
     }
 
@@ -265,6 +265,13 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
                             </Box>
                         )
                     })
+            }
+            {
+                !usingLimitedView ? null : (
+                    <Box key='num-visible-items'>
+                    <Text>Viewing {begin}-{end} of {matchingItems.length} matching items</Text>
+                    </Box>
+                )
             }
         </Box>
     )
