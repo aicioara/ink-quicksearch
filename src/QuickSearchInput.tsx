@@ -200,6 +200,10 @@ export const QuickSearch: FC<QuickSearchProps> = (props) => {
 
     function handleKeyPress(ch: string, key: KeyPress) {
         if (!focus) return;
+        if (!key && parseInt(ch) !== NaN) {
+            addCharToQuery(ch);
+            return;
+        }
         if (clearQueryChars.indexOf(ch) !== -1) {
             setQuery('');
         } else if (key.name === 'return') {
