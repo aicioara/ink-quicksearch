@@ -37,7 +37,7 @@ export interface StatusProps {
 }
 
 const StatusComponent: FC<StatusProps> = ({ hasMatch, children, label }) => (
-    <Text><Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{`${label || 'Query'}: `}</Color>{children}</Text>
+    <Text>{`${label || 'Query'}: `}<Color hex={'#74BEFF'}>{children}</Color></Text>
 );
 
 export interface Item {
