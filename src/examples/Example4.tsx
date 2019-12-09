@@ -1,15 +1,18 @@
-/**
- * Limiting rows to current terminal size
- */
+import React, { FC, useState } from 'react';
+import { render, Color, Text } from 'ink';
+import termSize from 'term-size';
+import QuickSearch from '../QuickSearchInput';
 
-const {h, render, Component} = require('ink');
-const termSize = require('term-size');
+export const Example4Name = 'Long list limited to terminal size; non-matching queries are not allowed';
 
-const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
-
-class Example3 extends Component {
-    render() {
-        const props = {
+export const Example4: FC = () => {
+  const [selectedValue, setSelectedValue] = useState('');
+  return (
+    <>
+      <Text key='header'>Example 4: {Example4Name}</Text>
+      <Color green key='selected-item'>Selected item is {selectedValue}</Color>
+      { '\n\n' }
+      <QuickSearch key='input' {...{
             items: [
                 {label: 'Aardvark'},
                 {label: 'Abyssinian'},
@@ -64,17 +67,16 @@ class Example3 extends Component {
                 {label: 'Axolotl'},
                 {label: 'Aye Aye'},
             ],
-            onSelect: () => {},
-            statusComponent: () => <span></span>,
+            onSelect: d => setSelectedValue(d.label),
+            statusComponent: () => <></>,
             forceMatchingQuery: true,
             limit: termSize().rows - 2, // One for clear screen, one for cursor (Could be 1 more for statusComponent if that exists)
-        };
+        }} />
+    </>
+  )
 
-        return <span>
-            <QuickSearch {...props} />
-        </span>;
-    }
 }
 
-console.log('\x1Bc'); // Clear screen
-render(<Example3/>);
+if (require.main && require.main.filename === __filename) {
+  render(<Example4 />);
+}

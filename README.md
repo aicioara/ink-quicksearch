@@ -1,17 +1,20 @@
-# Ink 2 Quicksearch
+# ink-quicksearch-input
 
 > QuickSearch Component for [Ink 2](https://github.com/vadimdemedes/ink)
 
-> Forked from the origiinal [`ink-quicksearch`](https://github.com/aicioara/ink-quicksearch) to upgrade it to Ink 2.
+Forked from the origiinal [`ink-quicksearch`](https://github.com/aicioara/ink-quicksearch) to upgrade it to Ink 2.  Big thanks to @aicioara for laying out the core logic!  The re-write uses modern function
+components and hooks.  It is also in Typescript, improving the developer experience.
 
 
 ## Install
 
 ```
-$ npm install ink2-quicksearch
+$ npm install ink-quicksearch-input
 ```
 
 ## Quickstart
+
+If you'd like to get a feel for how the component works, you can see the examples in action by running:
 
 ```bash
 npm install
@@ -21,13 +24,18 @@ npm start
 ## Usage
 
 ```jsx
-const {h, render, Component} = require('ink');
-const QuickSearch = require('ink-quicksearch');
+import React, { useState } from 'react';
+import { render, Text } from 'ink';
+import { QuickSearchInput } from 'ink-quicksearch-input';
 
-class Demo extends Component {
-    render() {
-        const props = {
-            items: [
+const Demo = (props) => {
+    const [result, setResult] = useState('');
+    return (
+        <>
+        <Text>The user selected {result}.</Text>
+        {'\n'}
+        <QuickSearchInput 
+            items={[
                 {value: 1, label: 'Animal'},
                 {value: 3, label: 'Antilope'},
                 {value: 2, label: 'Animation'},
@@ -35,14 +43,11 @@ class Demo extends Component {
                 {value: 4, label: 'Arizona'},
                 {value: 5, label: 'Aria'},
                 {value: 6, label: 'Arid'},
-            ],
-            onSelect: item => {
-                // `item` = { label: 'First', value: 'first' }
-            };,
-        };
-
-        return <QuickSearch {...props} />
-    }
+                // ...
+            ]}
+            onSelect={(item) => setResult(item.label)} />
+        </>
+    )
 }
 
 render(<Demo/>);
@@ -61,10 +66,11 @@ render(<Demo/>);
 | forceMatchingQuery | `bool` | `false` | If set to true, queries that return no results are not allowed. In particular, if previous query `X` returns at least one result and `X + new_character` would not, query will not update to `X + new_character`.
 | clearQueryChars | `Array(char)` | `['\u0015', '\u0017']` <br> (<kbd>Ctrl</kbd> + <kbd>u</kbd>, <kbd>Ctrl</kbd> + <kbd>w</kbd>) | Key Combinations that will clear the query. <br> `ch` follows the `keypress` API `process.stdin.on('keypress', (ch, key) => {})`.
 | initialSelectionIndex | `int` | `0` | Selection index when the component is initially rendered or when `props.items` changes. Can be set together with new `props.items` to automatically select an option.
+| label | `string` | | Optionally provide a label which will appear before the current query.
 | indicatorComponent | Component | | Custom component to override the default indicator component (default - arrow).
 | itemComponent | Component | | Custom component to override the default item style (default - selection coloring).
 | highlightComponent | Component | | Custom component to override the default highlight style (default - background highlight).
-| statusComponent | Component | | Custom component to override the status component (default - current query).
+| statusComponent | Component | | Custom component to override the status component (default - current query, optional value label).
 
 ## Component Props
 
@@ -107,6 +113,7 @@ Props:
 
 - `hasMatch`: `boolean`
 - `children`: `any`
+- `label`: Optional `string`
 
 
 
