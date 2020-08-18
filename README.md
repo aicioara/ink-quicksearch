@@ -20,10 +20,11 @@ npm start
 ## Usage
 
 ```jsx
-const {h, render, Component} = require('ink');
+const React = require('react');
+const {render} = require('ink');
 const QuickSearch = require('ink-quicksearch');
 
-class Demo extends Component {
+class Demo extends React.Component {
     render() {
         const props = {
             items: [
@@ -52,7 +53,7 @@ render(<Demo/>);
 
 | Parameter | Type | Default | Description
 | --- | --- | --- | --- |
-| items | `Array(object)` | `[]` | Items to display in a list. <br> Each item must be an object and have at least a `label` prop. 
+| items | `Array(object)` | `[]` | Items to display in a list. <br> Each item must be an object and have at least a `label` prop.
 | onSelect | `function` | | Function to call when user selects an item. <br> Item object is passed to that function as an argument.
 | focus | `boolean` | `true` | Listen to user's input. <br> Useful in case there are multiple input components at the same time and input must be "routed" to a specific component.
 | caseSensitive | `boolean` | `false` | Whether or not quicksearch matching will be case sensitive.
@@ -114,18 +115,18 @@ Props:
 ```jsx
 // For the following four, whitespace is important
 const IndicatorComponent = ({isSelected}) => {
-    return <Color hex="#00FF00">{isSelected ? '>' : ' '} </Color>;
+    return <Text color="#00FF00">{isSelected ? '>' : ' '} </Text>;
 };
 
 const ItemComponent = ({isSelected, children}) => (
-    <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
+    <Text color={isSelected ? '#00FF00' : ''}>{children}</Text>
 );
 
 const HighlightComponent = ({children}) => (
-    <Color bgHex="#6C71C4">{children}</Color>
+    <Text backgroundColor="#6C71C4">{children}</Text>
 );
 
 const StatusComponent = ({hasMatch, children}) => (
-    <Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Color>
+    <Text color={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Text>
 );
 ```

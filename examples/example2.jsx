@@ -3,37 +3,38 @@
  * is case sensitive
  */
 
-const {h, render, Color, Component} = require('ink');
+const React = require('react');
+const { render, Text, Newline } = require('ink');
 
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 
-
 const StatusComponent = () => <span></span>; // No-op
 
-
-class Example2 extends Component {
+class Example2 extends React.Component {
     render() {
         const props = {
             items: [
-                {label: 'Animal'},
-                {label: 'Antilope'},
-                {label: 'Animation'},
-                {label: 'Animate'},
-                {label: 'Arizona'},
-                {label: 'Aria'},
-                {label: 'Arid'},
+                { label: 'Animal' },
+                { label: 'Antilope' },
+                { label: 'Animation' },
+                { label: 'Animate' },
+                { label: 'Arizona' },
+                { label: 'Aria' },
+                { label: 'Arid' }
             ],
-            onSelect: d => console.log(d),
+            onSelect: (d) => console.log(d),
             caseSensitive: true,
-            statusComponent: StatusComponent,
+            statusComponent: StatusComponent
         };
 
-        return <span>
-            <Color red> Example 2 </Color>
-            <br/>
-            <QuickSearch {...props} />
-        </span>;
+        return (
+            <React.Fragment>
+                <Text color="red"> Example 2 </Text>
+                <Newline />
+                <QuickSearch {...props} />
+            </React.Fragment>
+        );
     }
 }
 
-render(<Example2/>);
+render(<Example2 />);

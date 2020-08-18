@@ -27,10 +27,5 @@ module.exports = {
         // React
         "react/prop-types": "off", // This is ink
         "react/no-deprecated": "off", // This is ink
-    },
-    "settings": {
-        "react": {
-            "pragma": "h",
-        }
     }
 };

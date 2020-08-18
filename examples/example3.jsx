@@ -2,44 +2,45 @@
  * Example with disappearing options
  */
 
-const {h, render, Color, Component} = require('ink');
+const React = require('react');
+const { render, Text, Newline } = require('ink');
 
 const QuickSearch = require('import-jsx')('../src/QuickSearch.jsx');
 
-
-const ItemComponent = ({isHighlighted, isSelected, children}) => {
+const ItemComponent = ({ isHighlighted, isSelected, children }) => {
     if (!isHighlighted) {
         return <span></span>;
     }
-    return <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>;
+    return <Text color={isSelected ? '#00FF00' : ''}>{children}</Text>;
 };
 
 const StatusComponent = () => <span></span>; // No-op
 
-
-class Example3 extends Component {
+class Example3 extends React.Component {
     render() {
         const props = {
             items: [
-                {label: 'Animal'},
-                {label: 'Antilope'},
-                {label: 'Animation'},
-                {label: 'Animate'},
-                {label: 'Arizona'},
-                {label: 'Aria'},
-                {label: 'Arid'},
+                { label: 'Animal' },
+                { label: 'Antilope' },
+                { label: 'Animation' },
+                { label: 'Animate' },
+                { label: 'Arizona' },
+                { label: 'Aria' },
+                { label: 'Arid' }
             ],
-            onSelect: d => console.log(d),
+            onSelect: (d) => console.log(d),
             itemComponent: ItemComponent,
-            statusComponent: StatusComponent,
+            statusComponent: StatusComponent
         };
 
-        return <span>
-            <Color red> Example 3 </Color>
-            <br/>
-            <QuickSearch {...props} />
-        </span>;
+        return (
+            <React.Fragment>
+                <Text color="red"> Example 3 </Text>
+                <Newline />
+                <QuickSearch {...props} />
+            </React.Fragment>
+        );
     }
 }
 
-render(<Example3/>);
+render(<Example3 />);

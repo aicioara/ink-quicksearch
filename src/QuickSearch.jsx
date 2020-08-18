@@ -1,29 +1,30 @@
-const {h, Component, Color} = require('ink');
+const { Text, Newline } = require('ink');
 const hasAnsi = require('has-ansi');
 const isEqual = require('lodash.isequal');
+const React = require('react');
 
 const defaultValue = {label:''}; // Used as return for empty array
 
 
 // For the following four, whitespace is important
 const IndicatorComponent = ({isSelected}) => {
-    return <Color hex="#00FF00">{isSelected ? '>' : ' '} </Color>;
+    return <Text color="#00FF00">{isSelected ? '>' : ' '} </Text>;
 };
 
 const ItemComponent = ({isSelected, children}) => (
-    <Color hex={isSelected ? '#00FF00' : ''}>{children}</Color>
+    <Text color={isSelected ? '#00FF00' : ''}>{children}</Text>
 );
 
 const HighlightComponent = ({children}) => (
-    <Color bgHex="#6C71C4">{children}</Color>
+    <Text backgroundColor="#6C71C4">{children}</Text>
 );
 
 const StatusComponent = ({hasMatch, children}) => (
-    <Color hex={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Color>
+    <Text color={hasMatch ? '#00FF00' : '#FF0000'}>{children}</Text>
 );
 
 
-class QuickSearch extends Component {
+class QuickSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = QuickSearch.initialState;
@@ -58,7 +59,7 @@ class QuickSearch extends Component {
             let labelComponent = '';
             if (queryPosition === -1) {
                 itemProps.isHighlighted = false;
-                labelComponent = <span>{label}</span>;
+                labelComponent = <Text>{label}</Text>;
             } else {
                 itemProps.isHighlighted = true;
                 const start = queryPosition;
@@ -68,27 +69,27 @@ class QuickSearch extends Component {
                 const second = label.slice(start, end);
                 const third = label.slice(end);
 
-                labelComponent = <span>
+                labelComponent = <React.Fragment>
                     {first}
                     <HighlightComponent_ {...itemProps}>{second}</HighlightComponent_>
                     {third}
-                </span>;
+                </React.Fragment>;
             }
 
-            return <ItemComponent_ key={item.value} {...itemProps}>
+            return <ItemComponent_ key={item.value || index} {...itemProps}>
                 <IndicatorComponent_ {...itemProps}/>
                 {labelComponent}
-                {!isLast && <br/>}
+                {!isLast && <Newline/>}
             </ItemComponent_>;
         });
 
-        return <span>
+        return <React.Fragment>
             {rows}
             <StatusComponent_ hasMatch={this.state.hasMatch}>
-                <br/>
+                <Newline/>
                 {this.state.query}
             </StatusComponent_>
-        </span>;
+        </React.Fragment>;
     }
 
     componentDidMount() {
@@ -99,7 +100,7 @@ class QuickSearch extends Component {
         process.stdin.removeListener('keypress', this.handleKeyPress);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if (!isEqual(this.props.items, nextProps.items)) {
             this.setState(QuickSearch.initialState);
             if (nextProps.initialSelectionIndex != null) {
